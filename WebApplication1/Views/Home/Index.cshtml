@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
     int Size = Convert.ToInt32(ViewData["Count"]);
 }
 
@@ -10,21 +10,36 @@
         margin: 0 auto;
         padding: 0;
     }
-
     a {
         text-decoration: none;
         font-size: 20px;
         color: #000;
-        border: 1px dotted gray;
         display: block;
         width: 60px;
         float: left;
         text-align: center;
+        padding: 2px;
+        top: 50%;
     }
-
+    .table {
+        height:300px;
+        text-align:center;
+    }
     .Color {
         background-color: aqua;
     }
+
+    #Up {
+        margin-left: 30%;
+    }
+
+    #Up, #down {
+        width: 65px;
+    }
+
+        #Up:hover, #down:hover {
+            text-decoration: none;
+        }
 </style>
 <html>
 <head>
@@ -40,7 +55,7 @@
         {
             <a class="btn" href="javascript:void(0)">@(i + 1)</a>
         }
-        <a href="javascript:void(0)">下一页</a>
+        <a id="down" href="javascript:void(0)">下一页</a>
     </div>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript">
@@ -55,26 +70,34 @@
                         console.log(res)
                         if (res != null) {
                             $("#page tr").remove();
+                            $("#page").append("<tr style='font-size:20px;'><td>图书名称</td><td>图书简介</td><td>图书价格</td><td>图书库存</td></tr>")
                             for (var i = 0; i < res.length; i++) {
                                 if (res[i].BookDetails.length > 10) {
                                     var det = res[i].BookDetails.substring(0, 10)
                                 }
-                                $("#page").append("<tr><td>" + res[i].BookName + "</td><td>" + det + "</td><td>" + res[i].BookPrice + "</td><td>" + res[i].BookStock + "</td></tr>");
+                                $("#page").append("<tr><td>" + res[i].BookName + "</td><td>" + det + "</td><td>&yen;" + res[i].BookPrice + ".00</td><td>" + res[i].BookStock + "</td></tr>");
                             }
                         }
                     }
                 });
             }
             band(1)
+            $("#page tr").eq(0).css("font-Size","20px")
             $("#Up").click(function () {
-                if ($(".Color").text()===$(".btn").eq(0).text()) {
-                    band(1)
+                if ($(".Color").text() === $(".btn").eq(0).text()) {
                 } else {
                     $(".btn").eq($(".Color").text() - 2).addClass("Color").siblings().removeClass("Color");
                     band($(".Color").text())
                 }
-                
 
+
+            });
+            $("#down").click(function () {
+                if ($(".Color").text() === "7") {
+                } else {
+                    $(".btn").eq($(".Color").text()).addClass("Color").siblings().removeClass("Color");
+                    band($(".Color").text())
+                }
             });
             $(".btn").eq(0).addClass("Color");
             $(".btn").click(function () {
