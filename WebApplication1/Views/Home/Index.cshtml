@@ -1,0 +1,86 @@
+﻿
+@{
+    Layout = null;
+    int Size = Convert.ToInt32(ViewData["Count"]);
+}
+
+<!DOCTYPE html>
+<style>
+    * {
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 20px;
+        color: #000;
+        border: 1px dotted gray;
+        display: block;
+        width: 60px;
+        float: left;
+        text-align: center;
+    }
+
+    .Color {
+        background-color: aqua;
+    }
+</style>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <table class="table table-hover" id="page">
+        </table>
+        <a id="Up" href="javascript:void(0)">上一页</a>
+        @for (int i = 0; i < Size; i++)
+        {
+            <a class="btn" href="javascript:void(0)">@(i + 1)</a>
+        }
+        <a href="javascript:void(0)">下一页</a>
+    </div>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            function band(id) {
+                $.ajax({
+                    url: "/home/Page",
+                    type: "post",
+                    data: { ind: id },
+                    dataType: "json",
+                    success: function (res) {
+                        console.log(res)
+                        if (res != null) {
+                            $("#page tr").remove();
+                            for (var i = 0; i < res.length; i++) {
+                                if (res[i].BookDetails.length > 10) {
+                                    var det = res[i].BookDetails.substring(0, 10)
+                                }
+                                $("#page").append("<tr><td>" + res[i].BookName + "</td><td>" + det + "</td><td>" + res[i].BookPrice + "</td><td>" + res[i].BookStock + "</td></tr>");
+                            }
+                        }
+                    }
+                });
+            }
+            band(1)
+            $("#Up").click(function () {
+
+                $(".btn").eq($(".Color").text() - 2).addClass("Color").siblings().removeClass("Color");
+                if ($(".Color").text()!='1') {
+                    band($(".Color").text())
+                }
+                
+
+            });
+            $(".btn").eq(0).addClass("Color");
+            $(".btn").click(function () {
+                $(this).addClass("Color").siblings().removeClass("Color");
+                band($(this).text());
+            });
+        });
+    </script>
+</body>
+</html>
