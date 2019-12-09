@@ -67,9 +67,10 @@
             }
             band(1)
             $("#Up").click(function () {
-
-                $(".btn").eq($(".Color").text() - 2).addClass("Color").siblings().removeClass("Color");
-                if ($(".Color").text()!='1') {
+                if ($(".Color").text()===$(".btn").eq(0).text()) {
+                    band(1)
+                } else {
+                    $(".btn").eq($(".Color").text() - 2).addClass("Color").siblings().removeClass("Color");
                     band($(".Color").text())
                 }
                 
