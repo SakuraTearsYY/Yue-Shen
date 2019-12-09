@@ -19,11 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo01.Dal", "Demo01.Dal\De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo01.Bll", "Demo01.Bll\Demo01.Bll.csproj", "{D2B47007-08C2-46FC-8291-27E51C89B078}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "T-SQL", "T-SQL", "{A143B8E2-CE4F-4DCB-984F-E1218E83C90E}"
-	ProjectSection(SolutionItems) = preProject
-		C:\Users\【白色樱花季】\Desktop\BooksStore.sql = C:\Users\【白色樱花季】\Desktop\BooksStore.sql
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
