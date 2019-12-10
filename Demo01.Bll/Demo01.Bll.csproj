@@ -48,12 +48,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ProductBll.cs" />
+    <Compile Include="ProductCategoryBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInfoBll.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Demo01.Dal\Demo01.Dal.csproj">
+      <Project>{b4c6b468-43a4-4981-9cb4-c732ee023b15}</Project>
+      <Name>Demo01.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Demo01.Model\Demo01.Model.csproj">
+      <Project>{9d902630-4936-4154-b18c-272a92a812c3}</Project>
+      <Name>Demo01.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

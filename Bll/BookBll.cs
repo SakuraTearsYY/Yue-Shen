@@ -17,7 +17,7 @@ namespace Bll
             return dal.Page(size, index, out count, x => x.BookID, false);
         }
 
-        public int Count() 
+        public int Count()
         {
             return dal.Sel().Count();
         }

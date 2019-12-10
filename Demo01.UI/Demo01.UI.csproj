@@ -186,6 +186,16 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Demo01.Bll\Demo01.Bll.csproj">
+      <Project>{d2b47007-08c2-46fc-8291-27e51c89b078}</Project>
+      <Name>Demo01.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Demo01.Model\Demo01.Model.csproj">
+      <Project>{9d902630-4936-4154-b18c-272a92a812c3}</Project>
+      <Name>Demo01.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
