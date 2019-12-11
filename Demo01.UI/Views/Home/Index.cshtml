@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int Count = Convert.ToInt32(ViewData["Count"]);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #page {
+            height:100px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+
+        <table id="page" class="table table-hover text-center">
+        </table>
+        <div id="choose">
+            @for (int i = 0; i < Count; i++)
+            {
+                <a class="btn" href="javascript:void(0)">@(i + 1)</a>
+            }
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            function band(id) {
+                $.ajax({
+                    url: "/home/Page",
+                    data: { ID: id },
+                    dataType: "json",
+                    type: "post",
+                    success: function (res) {
+                        console.log(res)
+                        if (res != null) {
+                            $("#page tr").remove();
+                            $("#page").append("<tr style='font-size:20px;'><td>商品名称</td><td>市场价格</td><td>商品售价</td><td>产品介绍</td><td>商品类别</td><td>操作</td></tr>");
+                            for (var i = 0; i < res.length; i++) {
+                                $("#page").append("<tr><td>" + res[i]["pro"].ProductName + "</td><td>" + res[i]["pro"].SellingPrice + "</td><td>" + res[i]["pro"].MarketPrice + "</td><td>" + res[i]["pro"].Introduction + "</td><td>" + res[i].Name + "</td></tr>");
+                            }
+                        }
+                    }
+                });
+            }
+            band(1)
+            $(".btn").click(function () {
+                band($(this).text());
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

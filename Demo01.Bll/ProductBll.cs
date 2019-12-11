@@ -39,16 +39,23 @@ namespace Demo01.Bll
             return dal.Sel_ID(ID);
         }
         /// <summary>
+        /// 获取数据条数
+        /// </summary>
+        /// <returns>数据总条数</returns>
+        public int Count() 
+        {
+            return dal.Count();
+        }
+        /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="size">书记处显示的条数</param>
         /// <param name="pageIndex">页数</param>
-        /// <param name="count">数据总条数</param>
         /// <param name="IsDesc">是否降序</param>
         /// <returns>结果</returns>
-        public IQueryable<GroupModel> Pages(int size, int pageIndex, out int count,  bool IsDesc)
+        public IQueryable<GroupModel> Pages(int size, int pageIndex,  bool IsDesc)
         {
-            return dal.Pages(size, pageIndex, out count, x=>x.pro.Id, IsDesc);
+            return dal.Pages(size, pageIndex, x=>x.pro.Id, IsDesc);
         }
         /// <summary>
         /// 添加

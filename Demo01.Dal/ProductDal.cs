@@ -11,9 +11,16 @@ namespace Demo01.Dal
     public class ProductDal : BaseDal<Product>
     {
         readonly Code_Entities db = new Code_Entities();
-        public IQueryable<GroupModel> Pages<S>(int size, int pageIndex, out int count, Expression<Func<GroupModel, S>> orderby, bool IsDesc)
+
+        public int Count() 
         {
-            
+            return (from u in db.Product
+                    join t in db.ProductCategory
+                    on u.CategoryId equals t.Id
+                    select new GroupModel { pro = u, Name = t.Name }).Count();
+        }
+        public IQueryable<GroupModel> Pages<S>(int size, int pageIndex, Expression<Func<GroupModel, S>> orderby, bool IsDesc)
+        {
             if (IsDesc)
             {
                 var temp = (from u in db.Product
@@ -24,7 +31,6 @@ namespace Demo01.Dal
                     .Skip(size * (pageIndex - 1))
                     .Take(size)
                     .AsQueryable();
-                count = temp.Count();
                 return temp;
             }
             else
@@ -37,7 +43,6 @@ namespace Demo01.Dal
                     .Skip(size * (pageIndex - 1))
                     .Take(size)
                     .AsQueryable();
-                count = temp.Count();
                 return temp;
             }
              
