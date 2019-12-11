@@ -39,6 +39,15 @@ namespace Demo01.Bll
             return dal.Sel_ID(ID);
         }
         /// <summary>
+        /// 联合查询
+        /// </summary>
+        /// <param name="whereLambda">条件</param>
+        /// <returns>第一个满足条件的结果</returns>
+        public GroupModel GroupSel(Expression<Func<GroupModel, bool>> whereLambda) 
+        {
+            return dal.GroupSel(whereLambda);
+        }
+        /// <summary>
         /// 获取数据条数
         /// </summary>
         /// <returns>数据总条数</returns>
@@ -47,7 +56,7 @@ namespace Demo01.Bll
             return dal.Count();
         }
         /// <summary>
-        /// 分页查询
+        /// 联合分页查询
         /// </summary>
         /// <param name="size">书记处显示的条数</param>
         /// <param name="pageIndex">页数</param>

@@ -10,6 +10,7 @@ namespace Demo01.UI.Controllers
     public class HomeController : Controller
     {
         readonly ProductBll product = new ProductBll();
+        readonly ProductCategoryBll productCategory = new ProductCategoryBll();
         int count;
         public ActionResult Index()
         {
@@ -24,15 +25,25 @@ namespace Demo01.UI.Controllers
                 count = tem;
             }
             ViewData["Count"] = count;
+            ViewData["type"] = productCategory.Search();
             return View();
         }
         [HttpPost]
-        public JsonResult Page(int ID = 1) 
+        public JsonResult Page(int ID = 1)
         {
-            
+
             var data = product.Pages(3, ID, false);
-           
+
             return Json(data);
+        }
+
+        public JsonResult Sel(int Id)
+        {
+            var data = product.GroupSel(x => x.pro.Id == Id);
+            
+            if (data != null)
+                return Json(data);
+            return Json(0);
         }
     }
 }

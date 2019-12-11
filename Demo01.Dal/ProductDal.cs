@@ -19,6 +19,15 @@ namespace Demo01.Dal
                     on u.CategoryId equals t.Id
                     select new GroupModel { pro = u, Name = t.Name }).Count();
         }
+
+        public GroupModel GroupSel(Expression<Func<GroupModel,bool>>whereLambda) 
+        {
+            var temp = (from u in db.Product
+                        join t in db.ProductCategory
+                        on u.CategoryId equals t.Id
+                        select new GroupModel { pro = u, Name = t.Name });
+            return temp.First(whereLambda);
+        }
         public IQueryable<GroupModel> Pages<S>(int size, int pageIndex, Expression<Func<GroupModel, S>> orderby, bool IsDesc)
         {
             if (IsDesc)

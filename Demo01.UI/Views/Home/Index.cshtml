@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int Count = Convert.ToInt32(ViewData["Count"]);
+    List<Demo01.Model.Data.ProductCategory> type = ViewData["type"] as List<Demo01.Model.Data.ProductCategory>;
 }
 
 <!DOCTYPE html>
@@ -12,20 +13,64 @@
     <title></title>
     <style>
         #page {
-            height:100px;
+            height: 100px;
         }
     </style>
 </head>
 <body>
     <div>
-
         <table id="page" class="table table-hover text-center">
         </table>
         <div id="choose">
             @for (int i = 0; i < Count; i++)
             {
-                <a class="btn" href="javascript:void(0)">@(i + 1)</a>
+                <a class="btns btn" href="javascript:void(0)">@(i + 1)</a>
             }
+        </div>
+    </div>
+    <!--模态框-->
+    <div>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <label>商品名称</label>
+                            <input id="name" class="form-control" type="text" value="" />
+                        </div>
+                        <div>
+                            <label>市场价格</label>
+                            <input id="price" class="form-control" type="text" value="" />
+                        </div>
+                        <div>
+                            <label>商品售价</label>
+                            <input id="Sprice" class="form-control" type="text" value="" />
+                        </div>
+                        <div>
+                            <label>商品介绍</label>
+                            <input id="Det" class="form-control" type="text" value="" />
+                        </div>
+                        <div>
+                            <label>商品类别</label>
+                            <select class="form-control" id="type">
+                                @foreach (var item in type)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" id="Upd" class="btn btn-success">提交更改</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
         </div>
     </div>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -43,15 +88,57 @@
                             $("#page tr").remove();
                             $("#page").append("<tr style='font-size:20px;'><td>商品名称</td><td>市场价格</td><td>商品售价</td><td>产品介绍</td><td>商品类别</td><td>操作</td></tr>");
                             for (var i = 0; i < res.length; i++) {
-                                $("#page").append("<tr><td>" + res[i]["pro"].ProductName + "</td><td>" + res[i]["pro"].SellingPrice + "</td><td>" + res[i]["pro"].MarketPrice + "</td><td>" + res[i]["pro"].Introduction + "</td><td>" + res[i].Name + "</td></tr>");
+                                $("#page").append("<tr><td>"
+                                    + res[i]["pro"].ProductName +
+                                    "</td><td>"
+                                    + res[i]["pro"].SellingPrice +
+                                    "</td><td>"
+                                    + res[i]["pro"].MarketPrice +
+                                    "</td><td>"
+                                    + res[i]["pro"].Introduction +
+                                    "</td><td>"
+                                    + res[i].Name +
+                                    "</td><td><input data-id="
+                                    + res[i]["pro"].Id +
+                                    " class='button' type='button' value='s'></td></tr>");
                             }
+                            $(".button").click(function () {
+                                $('#myModal').modal('show')
+                                $.ajax({
+                                    url: "/home/Sel",
+                                    data: { Id: $(this).attr("data-id") },
+                                    dataType: "json",
+                                    type: "post",
+                                    success: function (res) {
+                                        console.log(res);
+                                        if (res != null) {
+                                            $("#name").val(res["pro"].ProductName)
+                                            $("#price").val(res["pro"].SellingPrice)
+                                            $("#Sprice").val(res["pro"].MarketPrice)
+                                            $("#Det").val(res["pro"].Introduction)
+                                            $("#type").find("option").eq(res["pro"].CategoryId - 1).prop("selected", true)
+                                        }
+                                    }
+                                });
+                            });
                         }
                     }
                 });
+
             }
             band(1)
-            $(".btn").click(function () {
+            $(".btns").click(function () {
                 band($(this).text());
+            });
+            $("#Upd").click(function () {
+                $.ajax({
+                    url: "/home/Upd",
+                    data: { type:$("#type").find("option:selected").val() },
+                    dataType: "json",
+                    type: "post",
+                    success: function (res) { }
+                });
+                
             });
         });
     </script>
