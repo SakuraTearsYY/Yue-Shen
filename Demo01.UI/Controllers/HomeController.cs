@@ -12,6 +12,8 @@ namespace Demo01.UI.Controllers
     {
         readonly ProductBll product = new ProductBll();
         readonly ProductCategoryBll productCategory = new ProductCategoryBll();
+        readonly UserInfoBll user = new UserInfoBll();
+        UserInfo us;
         int count, tem;
         public ActionResult Index()
         {
@@ -27,7 +29,17 @@ namespace Demo01.UI.Controllers
             }
             ViewData["Count"] = count;
             ViewData["type"] = productCategory.Search();
-            return View();
+            us = Session["User"] as UserInfo;
+            if (us==null)
+            {
+                return View("Login");
+            }
+            else
+            {
+                return View("Index");
+            }
+            
+            
         }
         [HttpPost]
         public JsonResult Page(int ID = 1)
@@ -41,13 +53,13 @@ namespace Demo01.UI.Controllers
         public JsonResult Sel(int Id)
         {
             var data = product.GroupSel(x => x.pro.Id == Id);
-            
+
             if (data != null)
                 return Json(data);
             return Json(0);
         }
         [HttpPost]
-        public JsonResult Upd(int tid, string name,int price,int sprice, string det,int ty) 
+        public JsonResult Upd(int tid, string name, int price, int sprice, string det, int ty)
         {
             Product model = product.Sel_ID(x => x.Id == tid);
             model.ProductName = name;
@@ -58,14 +70,14 @@ namespace Demo01.UI.Controllers
             return Json(product.Upd(model));
         }
         [HttpPost]
-        public JsonResult Del(int Id) 
+        public JsonResult Del(int Id)
         {
             Product model = product.Sel_ID(x => x.Id == Id);
             return Json(product.Del(model));
         }
 
         [HttpPost]
-        public JsonResult Count() 
+        public JsonResult Count()
         {
             count = product.Count();
             tem = count / 3;
@@ -79,5 +91,23 @@ namespace Demo01.UI.Controllers
             }
             return Json(count);
         }
+
+        [HttpPost]
+        public ActionResult Login(string name, string pwd)
+        {
+            var data = user.Sel(x => x.UserName == name & x.UserPwd == pwd);
+            if (data.Count() > 0)
+            {
+                Session["User"] = data;
+                Response.Redirect("Index");
+                return View();
+                
+            }
+            else
+            {
+                return View("Login");
+            }
+        }
+
     }
 }
