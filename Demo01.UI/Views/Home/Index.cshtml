@@ -22,10 +22,11 @@
         <table id="page" class="table table-hover text-center">
         </table>
         <div id="choose">
-            @for (int i = 0; i < Count; i++)
-            {
-                <a class="btns btn" href="javascript:void(0)">@(i + 1)</a>
-            }
+            @*@for (int i = 0; i < Count; i++)
+                {
+                    <a class="btns btn" href="javascript:void(0)">@(i + 1)</a>
+                }*@
+            <p id="pag"></p>
         </div>
     </div>
     <!--模态框-->
@@ -76,6 +77,28 @@
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript">
         $(function () {
+            var ind = 0;
+            function coun() {
+                $.ajax({
+                    url: "/home/Count",
+                    dataType: "json",
+                    type: "post",
+                    success: function (res) {
+                        console.log(res)
+                        if (res != 0) {
+                            $("#pag a").remove();
+                            for (var i = 0; i < res; i++) {
+                                $("#pag").append("<a class='but btn'>" + (i + 1) + "</a>");
+                            }
+                            $(".but").click(function () {
+                                band($(this).text())
+                                ind = $(this).text();
+                            });
+                        }
+                    }
+                });
+            };
+
             function band(id) {
                 $.ajax({
                     url: "/home/Page",
@@ -100,8 +123,30 @@
                                     + res[i].Name +
                                     "</td><td><input data-id="
                                     + res[i]["pro"].Id +
-                                    " class='button' type='button' value='修改'></td></tr>");
+                                    " class='button' type='button' value='修改'><input data-id="
+                                    + res[i]["pro"].Id +
+                                    " class='Del' type='button' value='删除'></td></tr>");
                             }
+                            $(".Del").click(function () {
+                                $.ajax({
+                                    url: "/home/Del",
+                                    data: { Id: $(this).attr("data-id") },
+                                    dataType: "json",
+                                    type: "post",
+                                    success: function (res) {
+                                        if (res) {
+                                            if (ind == 0) {
+                                                band(1)
+                                                coun()
+                                            } else {
+                                                coun()
+                                                band(ind)
+                                            }
+
+                                        }
+                                    }
+                                });
+                            });
                             $(".button").click(function () {
                                 $('#myModal').modal('show')
                                 $.ajax({
@@ -112,7 +157,7 @@
                                     success: function (res) {
                                         console.log(res);
                                         if (res != null) {
-                                            $("#lab").attr("data-id",res["pro"].Id);
+                                            $("#lab").attr("data-id", res["pro"].Id);
                                             $("#name").val(res["pro"].ProductName)
                                             $("#price").val(res["pro"].SellingPrice)
                                             $("#Sprice").val(res["pro"].MarketPrice)
@@ -128,11 +173,11 @@
 
             }
             band(1)
-            var ind = 0;
-            $(".btns").click(function () {
-                band($(this).text());
-                ind = $(this).text();
-            });
+            coun()
+            //$(".btns").click(function () {
+            //    band($(this).text());
+            //    ind = $(this).text();
+            //});
             $("#Upd").click(function () {
                 $.ajax({
                     url: "/home/Upd",
@@ -154,7 +199,7 @@
                             } else {
                                 band(ind)
                             }
-                            
+
                         }
                     }
                 });

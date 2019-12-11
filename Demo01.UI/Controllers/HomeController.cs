@@ -12,11 +12,11 @@ namespace Demo01.UI.Controllers
     {
         readonly ProductBll product = new ProductBll();
         readonly ProductCategoryBll productCategory = new ProductCategoryBll();
-        int count;
+        int count, tem;
         public ActionResult Index()
         {
             count = product.Count();
-            int tem = count / 3;
+            tem = count / 3;
             if (count % 3 != 0)
             {
                 count = tem + 1;
@@ -56,6 +56,28 @@ namespace Demo01.UI.Controllers
             model.Introduction = det;
             model.CategoryId = ty;
             return Json(product.Upd(model));
+        }
+        [HttpPost]
+        public JsonResult Del(int Id) 
+        {
+            Product model = product.Sel_ID(x => x.Id == Id);
+            return Json(product.Del(model));
+        }
+
+        [HttpPost]
+        public JsonResult Count() 
+        {
+            count = product.Count();
+            tem = count / 3;
+            if (count % 3 != 0)
+            {
+                count = tem + 1;
+            }
+            else
+            {
+                count = tem;
+            }
+            return Json(count);
         }
     }
 }
