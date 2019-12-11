@@ -40,7 +40,7 @@
                     </div>
                     <div class="modal-body">
                         <div>
-                            <label>商品名称</label>
+                            <label data-id="" id="lab">商品名称</label>
                             <input id="name" class="form-control" type="text" value="" />
                         </div>
                         <div>
@@ -100,7 +100,7 @@
                                     + res[i].Name +
                                     "</td><td><input data-id="
                                     + res[i]["pro"].Id +
-                                    " class='button' type='button' value='s'></td></tr>");
+                                    " class='button' type='button' value='修改'></td></tr>");
                             }
                             $(".button").click(function () {
                                 $('#myModal').modal('show')
@@ -112,6 +112,7 @@
                                     success: function (res) {
                                         console.log(res);
                                         if (res != null) {
+                                            $("#lab").attr("data-id",res["pro"].Id);
                                             $("#name").val(res["pro"].ProductName)
                                             $("#price").val(res["pro"].SellingPrice)
                                             $("#Sprice").val(res["pro"].MarketPrice)
@@ -127,18 +128,37 @@
 
             }
             band(1)
+            var ind = 0;
             $(".btns").click(function () {
                 band($(this).text());
+                ind = $(this).text();
             });
             $("#Upd").click(function () {
                 $.ajax({
                     url: "/home/Upd",
-                    data: { type:$("#type").find("option:selected").val() },
+                    data: {
+                        tid: $("#lab").attr("data-id"),
+                        name: $("#name").val(),
+                        price: $("#price").val(),
+                        sprice: $("#Sprice").val(),
+                        det: $("#Det").val(),
+                        ty: $("#type").find("option:selected").val()
+                    },
                     dataType: "json",
                     type: "post",
-                    success: function (res) { }
+                    success: function (res) {
+                        if (res) {
+                            $('#myModal').modal('hide')
+                            if (ind == 0) {
+                                band(1)
+                            } else {
+                                band(ind)
+                            }
+                            
+                        }
+                    }
                 });
-                
+
             });
         });
     </script>

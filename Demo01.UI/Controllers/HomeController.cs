@@ -1,4 +1,5 @@
 ﻿using Demo01.Bll;
+using Demo01.Model.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace Demo01.UI.Controllers
 
             return Json(data);
         }
-
+        [HttpPost]
         public JsonResult Sel(int Id)
         {
             var data = product.GroupSel(x => x.pro.Id == Id);
@@ -44,6 +45,17 @@ namespace Demo01.UI.Controllers
             if (data != null)
                 return Json(data);
             return Json(0);
+        }
+        [HttpPost]
+        public JsonResult Upd(int tid, string name,int price,int sprice, string det,int ty) 
+        {
+            Product model = product.Sel_ID(x => x.Id == tid);
+            model.ProductName = name;
+            model.SellingPrice = price;
+            model.MarketPrice = sprice;
+            model.Introduction = det;
+            model.CategoryId = ty;
+            return Json(product.Upd(model));
         }
     }
 }
