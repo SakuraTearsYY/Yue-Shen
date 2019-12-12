@@ -79,7 +79,7 @@ namespace Demo01.Dal
         /// <returns>bool类型 执行的结果</returns>
         public bool Ins(T model)
         {
-            db.Entry(model).State = EntityState.Modified;
+            db.Set<T>().Add(model);
             return db.SaveChanges() > 0;
         }
 

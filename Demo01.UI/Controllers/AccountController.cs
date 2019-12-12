@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Demo01.Dal;
+using HPIT.Data.Core;
 
 namespace Demo01.UI.Controllers
 {
@@ -16,12 +18,14 @@ namespace Demo01.UI.Controllers
 
         public ActionResult Login(UserInfo model) 
         {
-            var data = userInfo.Sel(x => x.UserName == model.UserName & x.UserPwd == model.UserPwd);
-            if (data.Count()>0)
+            if (model!=null)
             {
-                Session["us"] = data.FirstOrDefault();
-
-                return RedirectToAction("Index", "Home");
+                var data = userInfo.Sel(x => x.UserName == model.UserName & x.UserPwd == model.UserPwd);
+                if (data.Count() > 0)
+                {
+                    Session["us"] = data.FirstOrDefault();
+                    return RedirectToAction("Index", "Home");
+                }
             }
             return View();
         }
@@ -29,19 +33,30 @@ namespace Demo01.UI.Controllers
 
         // POST: Account/Create
         [HttpPost]
-        public ActionResult Create(UserInfo collection)
+        public ActionResult Create(UserInfo model)
         {
-            try
+            
+            if (userInfo.Ins(model))
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                
+                return RedirectToAction("Login");
+                
+               
             }
-            catch
-            {
-                return View();
-            }
+            
+            return View();
         }
-        
+        [HttpPost]
+        public JsonResult Vad(string name,string pwd) 
+        {
+            var data = userInfo.Sel(x => x.UserName == name & x.UserPwd == pwd);
+            if (data.Count()>0)
+            {
+                LogHelper.Default.WriteInfo(data.First().UserName+"登录");
+                Session["us"] = data.FirstOrDefault();
+                return Json(true);
+            }
+            return Json(false);
+        }
     }
 }

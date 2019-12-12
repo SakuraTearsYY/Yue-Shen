@@ -5,14 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Login</h2>
 
-@using (Html.BeginForm("Login","Account")) 
+
+@using (Html.BeginForm("Login", "Account"))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>UserInfo</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -33,12 +32,73 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="登录" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="~/Content/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <main>
+        <form class="form">
+            <div class="form__cover"></div>
+            <div class="form__loader">
+                <div class="spinner active">
+                    <svg class="spinner__circular" viewBox="25 25 50 50">
+                        <circle class="spinner__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"></circle>
+                    </svg>
+                </div>
+            </div>
+            <div class="form__content">
+                <h1>3C数码商城</h1>
+                <div class="styled-input">
+                    <input type="text" class="styled-input__input" name="nickname" id="name">
+                    <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">登录名</span> </div>
+                    <div class="styled-input__circle"></div>
+                </div>
+                <div class="styled-input">
+                    <input type="text" class="styled-input__input" id="pwd" >
+                    <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">密码</span> </div>
+                    <div class="styled-input__circle"></div>
+                </div>
+                <button id="btn" type="button" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">提交</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">提交</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">提交</span> </span> </span> </span> </button>
+            </div>
+        </form>
+    </main>
+    <script src="~/Scripts/index.js"></script>
+</body>
+</html>
+@*<input id="name" type="text" />
+<input id="pwd" type="text" />*@
+@*<input type="button" id="btn" value="click" />*@
+
+
 <div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btn").click(function () {
+            $.ajax({
+                url: "/Account/Vad",
+                data: { name: $("#name").val(), pwd: $("#pwd").val() },
+                dataType: "json",
+                type: "post",
+                success: function (res) {
+                    if (res != null) {
+                        location.href = "/home/index";
+                    }
+                }
+            });
+        });
+    });
+</script>

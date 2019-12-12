@@ -14,8 +14,6 @@ namespace Demo01.UI.Filter
             
             if (filterContext.HttpContext.Session["us"] == null)
             {
-
-
                 filterContext.Result = new RedirectToRouteResult(
                     new System.Web.Routing.RouteValueDictionary(new
                     {

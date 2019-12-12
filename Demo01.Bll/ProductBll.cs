@@ -58,7 +58,7 @@ namespace Demo01.Bll
         /// <summary>
         /// 联合分页查询
         /// </summary>
-        /// <param name="size">书记处显示的条数</param>
+        /// <param name="size">显示的条数</param>
         /// <param name="pageIndex">页数</param>
         /// <param name="IsDesc">是否降序</param>
         /// <returns>结果</returns>

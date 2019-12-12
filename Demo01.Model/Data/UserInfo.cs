@@ -11,11 +11,14 @@ namespace Demo01.Model.Data
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+
     public partial class UserInfo
     {
         public int UserID { get; set; }
+        [DisplayName("sss")]
         public string UserName { get; set; }
+        [DisplayName]
         public string UserPwd { get; set; }
     }
 }
