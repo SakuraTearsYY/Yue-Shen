@@ -29,15 +29,13 @@ namespace Demo01.UI.Controllers
             }
             ViewData["Count"] = count;
             ViewData["type"] = productCategory.Search();
-            us = Session["User"] as UserInfo;
+            int mun = Convert.ToInt32(Session["User"]);
+            us = Session["us"] as UserInfo;
             if (us==null)
             {
-                return View("Login");
+                return RedirectToAction("Login", "Account");
             }
-            else
-            {
-                return View("Index");
-            }
+            return View();
             
             
         }
@@ -91,23 +89,5 @@ namespace Demo01.UI.Controllers
             }
             return Json(count);
         }
-
-        [HttpPost]
-        public ActionResult Login(string name, string pwd)
-        {
-            var data = user.Sel(x => x.UserName == name & x.UserPwd == pwd);
-            if (data.Count() > 0)
-            {
-                Session["User"] = data;
-                Response.Redirect("Index");
-                return View();
-                
-            }
-            else
-            {
-                return View("Login");
-            }
-        }
-
     }
 }
