@@ -1,5 +1,6 @@
 ﻿using Demo01.Bll;
 using Demo01.Model.Data;
+using Demo01.UI.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ using System.Web.Mvc;
 
 namespace Demo01.UI.Controllers
 {
+    [MyFilter]
     public class HomeController : Controller
     {
         readonly ProductBll product = new ProductBll();
         readonly ProductCategoryBll productCategory = new ProductCategoryBll();
         readonly UserInfoBll user = new UserInfoBll();
-        UserInfo us;
         int count, tem;
         public ActionResult Index()
         {
@@ -29,12 +30,6 @@ namespace Demo01.UI.Controllers
             }
             ViewData["Count"] = count;
             ViewData["type"] = productCategory.Search();
-            int mun = Convert.ToInt32(Session["User"]);
-            us = Session["us"] as UserInfo;
-            if (us==null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
             return View();
             
             

@@ -13,10 +13,6 @@ namespace Demo01.UI.Controllers
 
         readonly UserInfoBll userInfo = new UserInfoBll();
         // GET: Account/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
         public ActionResult Login(UserInfo model) 
         {
@@ -24,17 +20,12 @@ namespace Demo01.UI.Controllers
             if (data.Count()>0)
             {
                 Session["us"] = data.FirstOrDefault();
-                int mun =Convert.ToInt32(Session["User"]);
+
                 return RedirectToAction("Index", "Home");
             }
             return View();
         }
 
-        // GET: Account/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
         // POST: Account/Create
         [HttpPost]
@@ -43,22 +34,6 @@ namespace Demo01.UI.Controllers
             try
             {
                 // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // POST: Account/Edit/5
-        [HttpPost]
-        public ActionResult Edit(UserInfo collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
 
                 return RedirectToAction("Index");
             }
