@@ -87,29 +87,29 @@
                         var data = JSON.parse(res);
                         console.log(data);
                         if (data != null) {
-                            var a = [];
-                            var b = [];
+                            var FirstMenuIndex = [];
+                            var FirstMenuName = [];
                             for (var i = 0; i < data.length; i++) {
-                                a.push(data[i]["FirstMenu"].FirstID);
-                                b.push(data[i]["FirstMenu"].FirstName);
+                                FirstMenuIndex.push(data[i]["FirstMenu"].FirstID);
+                                FirstMenuName.push(data[i]["FirstMenu"].FirstName);
                             }
-                            a = $.unique(a.sort());
-                            b = $.unique(b.sort());
-                            for (var j = 0; j < a.length; j++) {
-                                console.log("一级菜单："+b[j]);//append
-                                Me(data, a[j])
+                            FirstMenuIndex = $.unique(FirstMenuIndex.sort());//去重
+                            FirstMenuName = $.unique(FirstMenuName.sort());
+                            for (var j = 0; j < FirstMenuIndex.length; j++) {
+                                console.log("一级菜单："+FirstMenuName[j]);//append
+                                Me(data, FirstMenuIndex[j])
                             }
 
                         }
                     }
                 });
             }
-            //根据索引查找内容
-            function Me(data, ind) {
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i]["SecondMenu"] != null) {
-                        if (data[i]["SecondMenu"].FirstID == ind) {
-                            console.log("二级菜单："+data[i]["SecondMenu"].SecondName)//append
+            //根据索引查找内data容
+            function Me(Contents, Index) {
+                for (var i = 0; i < Contents.length; i++) {
+                    if (Contents[i]["SecondMenu"] != null) {
+                        if (Contents[i]["SecondMenu"].FirstID == Index) {
+                            console.log("二级菜单："+Contents[i]["SecondMenu"].SecondName)//append
                         }
                     }
 
@@ -123,7 +123,6 @@
                     dataType: "json",
                     type: "post",
                     success: function (res) {
-                        console.log(res)
                         if (res != 0) {
                             $("#pag a").remove();
                             for (var i = 0; i < res; i++) {
@@ -145,7 +144,6 @@
                     dataType: "json",
                     type: "post",
                     success: function (res) {
-                        console.log(res)
                         if (res != null) {
                             $("#page tr").remove();
                             $("#page").append("<tr style='font-size:20px;'><td>商品名称</td><td>市场价格</td><td>商品售价</td><td>产品介绍</td><td>商品类别</td><td>操作</td></tr>");
