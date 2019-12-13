@@ -30,7 +30,7 @@ namespace Demo01.UI.Controllers
         [HttpPost]
         public JsonResult Page(int ID = 1)
         {
-            var data = product.Pages(3, ID, false);
+            var data = product.Pages(6, ID, false);
             return Json(data);
         }
         [HttpPost]
@@ -63,8 +63,8 @@ namespace Demo01.UI.Controllers
         public JsonResult Count()
         {
             count = product.Count();
-            tem = count / 3;
-            if (count % 3 != 0)
+            tem = count / 6;
+            if (count % 6 != 0)
             {
                 count = tem + 1;
             }

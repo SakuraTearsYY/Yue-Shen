@@ -13,12 +13,26 @@
     <title></title>
     <style>
         #page {
-            height: 100px;
+            height: 200px;
+            width: 600px;
+            border: 1px solid red;
+        }
+
+        #left {
+            width: 200px;
+            height: 400px;
+            border: 1px solid red;
+            float: left;
+        }
+
+        #left {
+            overflow: auto;
         }
     </style>
 </head>
 <body>
-    <div>
+    <div id="left"></div>
+    <div id="right">
         <table id="page" class="table table-hover text-center">
         </table>
         <div id="choose">
@@ -96,11 +110,14 @@
                             FirstMenuIndex = $.unique(FirstMenuIndex.sort());//去重
                             FirstMenuName = $.unique(FirstMenuName.sort());
                             for (var j = 0; j < FirstMenuIndex.length; j++) {
-                                console.log("一级菜单："+FirstMenuName[j]);//append
+                                console.log("一级菜单：" + FirstMenuName[j]);//append
+                                $("#left").append("<div class='Show'>" + FirstMenuName[j] + "<ul class='ul'></ul></div>")
                                 Me(data, FirstMenuIndex[j])
-                            }
 
+                            }
                         }
+                        ShowMeun(0)
+                        MenuClick()
                     }
                 });
             }
@@ -109,7 +126,8 @@
                 for (var i = 0; i < Contents.length; i++) {
                     if (Contents[i]["SecondMenu"] != null) {
                         if (Contents[i]["SecondMenu"].FirstID == Index) {
-                            console.log("二级菜单："+Contents[i]["SecondMenu"].SecondName)//append
+                            console.log("二级菜单：" + Contents[i]["SecondMenu"].SecondName)//append
+                            $(".ul").append("<li>" + Contents[i]["SecondMenu"].SecondName + "</li>")
                         }
                     }
 
@@ -117,6 +135,27 @@
 
             }
             Menu()
+            function ShowMeun(num) {
+                var a=num
+                $(".Show").click(function () {
+                    $(".ul").eq($(this).index()).show(); 
+                    if (a > 0) {
+                        $(".ul").hide(); 
+                        a = 0;
+                        return;
+                    }
+                    a++
+                });
+                
+                //$(".ul").show();
+            }
+            function MenuClick() {
+                $(".ul").hide();
+                $(".ul li").click(function (event) {
+                    alert($(this).text())
+                    event.stopPropagation();
+                });
+            }
             function coun() {
                 $.ajax({
                     url: "/home/Count",

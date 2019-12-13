@@ -152,3 +152,59 @@
 出错类：Logger property: [(null)] - 
 错误描述：admin登录
  
+
+记录时间：2019-12-13 15:01:02,381 
+线程ID:[6] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-13 15:02:25,777 
+线程ID:[11] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-13 15:16:35,854 
+线程ID:[47] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-13 15:18:48,743 
+线程ID:[39] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-13 15:21:33,868 
+线程ID:[28] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：123456登录
+ 
+
+记录时间：2019-12-13 15:26:56,288 
+线程ID:[28] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-13 15:42:56,337 
+线程ID:[54] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-13 15:59:46,094 
+线程ID:[45] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
