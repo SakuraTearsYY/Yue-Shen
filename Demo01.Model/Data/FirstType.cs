@@ -12,20 +12,20 @@ namespace Demo01.Model.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class UserInfo
+    public partial class FirstType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UserInfo()
+        public FirstType()
         {
-            this.FirstType = new HashSet<FirstType>();
+            this.SecondType = new HashSet<SecondType>();
         }
     
-        public int UserID { get; set; }
-        public string UserName { get; set; }
-        public string UserPwd { get; set; }
-        public int UserCord { get; set; }
+        public int FirstID { get; set; }
+        public string FirstName { get; set; }
+        public Nullable<int> UserID { get; set; }
     
+        public virtual UserInfo UserInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FirstType> FirstType { get; set; }
+        public virtual ICollection<SecondType> SecondType { get; set; }
     }
 }

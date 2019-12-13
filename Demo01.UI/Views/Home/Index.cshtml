@@ -78,6 +78,45 @@
     <script type="text/javascript">
         $(function () {
             var ind = 0;
+            function Menu() {
+                $.ajax({
+                    url: "/home/Menu",
+                    dataType: "json",
+                    type: "post",
+                    success: function (res) {
+                        var data = JSON.parse(res);
+                        console.log(data);
+                        if (data != null) {
+                            var a = [];
+                            var b = [];
+                            for (var i = 0; i < data.length; i++) {
+                                a.push(data[i]["FirstMenu"].FirstID);
+                                b.push(data[i]["FirstMenu"].FirstName);
+                            }
+                            a = $.unique(a.sort());
+                            b = $.unique(b.sort());
+                            for (var j = 0; j < a.length; j++) {
+                                console.log("一级菜单："+b[j]);//append
+                                Me(data, a[j])
+                            }
+
+                        }
+                    }
+                });
+            }
+            //根据索引查找内容
+            function Me(data, ind) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i]["SecondMenu"] != null) {
+                        if (data[i]["SecondMenu"].FirstID == ind) {
+                            console.log("二级菜单："+data[i]["SecondMenu"].SecondName)//append
+                        }
+                    }
+
+                }
+
+            }
+            Menu()
             function coun() {
                 $.ajax({
                     url: "/home/Count",

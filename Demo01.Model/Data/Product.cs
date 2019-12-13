@@ -22,7 +22,10 @@ namespace Demo01.Model.Data
         public string Introduction { get; set; }
         public bool IsOnSale { get; set; }
         public Nullable<System.DateTime> AddTime { get; set; }
+        public Nullable<int> SecondID { get; set; }
+        public Nullable<System.DateTime> EndTime { get; set; }
     
         public virtual ProductCategory ProductCategory { get; set; }
+        public virtual SecondType SecondType { get; set; }
     }
 }

@@ -68,6 +68,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>3CData.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\FirstType.cs">
+      <DependentUpon>3CData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\GroupModel.cs" />
     <Compile Include="Data\Product.cs">
       <DependentUpon>3CData.tt</DependentUpon>
@@ -75,9 +78,13 @@
     <Compile Include="Data\ProductCategory.cs">
       <DependentUpon>3CData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\SecondType.cs">
+      <DependentUpon>3CData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\UserInfo.cs">
       <DependentUpon>3CData.tt</DependentUpon>
     </Compile>
+    <Compile Include="MenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

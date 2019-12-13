@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Demo01.Model;
 
 namespace Demo01.UI.Controllers
 {
@@ -15,11 +17,15 @@ namespace Demo01.UI.Controllers
         readonly ProductBll product = new ProductBll();
         readonly ProductCategoryBll productCategory = new ProductCategoryBll();
         readonly UserInfoBll user = new UserInfoBll();
+        readonly SecondTypeBll secondType = new SecondTypeBll();
+        readonly FirstTypeBll first = new FirstTypeBll();
+        private UserInfo us;
         int count, tem;
         public ActionResult Index()
         {
             ViewData["type"] = productCategory.Search();
-            return View();  
+            us = Session["us"] as UserInfo;
+            return View();
         }
         [HttpPost]
         public JsonResult Page(int ID = 1)
@@ -67,6 +73,20 @@ namespace Demo01.UI.Controllers
                 count = tem;
             }
             return Json(count);
+        }
+
+        [HttpPost]
+        public JsonResult Menu()
+        {
+            UserInfo use = Session["us"] as UserInfo;
+            List<MenuModel> data = secondType.SeaAll(x => x.UsersInfo.UserCord == use.UserCord);
+            JsonSerializerSettings setting = new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.None
+            };
+            var ret = JsonConvert.SerializeObject(data, setting);
+            return Json(ret);
         }
     }
 }

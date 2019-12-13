@@ -4,7 +4,15 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DigitalProductShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DigitalProductShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FirstType">
+          <Key>
+            <PropertyRef Name="FirstID" />
+          </Key>
+          <Property Name="FirstID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Id" />
@@ -14,9 +22,11 @@
           <Property Name="MarketPrice" Type="decimal" Precision="16" Scale="2" Nullable="false" />
           <Property Name="SellingPrice" Type="decimal" Precision="16" Scale="2" Nullable="false" />
           <Property Name="CategoryId" Type="int" />
+          <Property Name="SecondID" Type="int" />
           <Property Name="Introduction" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="IsOnSale" Type="bit" Nullable="false" />
           <Property Name="AddTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -25,6 +35,14 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="16" />
         </EntityType>
+        <EntityType Name="SecondType">
+          <Key>
+            <PropertyRef Name="SecondID" />
+          </Key>
+          <Property Name="SecondID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SecondName" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="FirstID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserInfo">
           <Key>
             <PropertyRef Name="UserID" />
@@ -32,8 +50,21 @@
           <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="16" Nullable="false" />
           <Property Name="UserPwd" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="UserCord" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Product__Categor__3B75D760">
+        <Association Name="FK__FirstType__UserI__3A81B327">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="FirstType" Type="Self.FirstType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FirstType">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__Categor__4222D4EF">
           <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -45,17 +76,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Product__SecondI__4316F928">
+          <End Role="SecondType" Type="Self.SecondType" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SecondType">
+              <PropertyRef Name="SecondID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SecondID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SecondTyp__First__3D5E1FD2">
+          <End Role="FirstType" Type="Self.FirstType" Multiplicity="1" />
+          <End Role="SecondType" Type="Self.SecondType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FirstType">
+              <PropertyRef Name="FirstID" />
+            </Principal>
+            <Dependent Role="SecondType">
+              <PropertyRef Name="FirstID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DigitalProductShopModelStoreContainer">
+          <EntitySet Name="FirstType" EntityType="Self.FirstType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SecondType" EntityType="Self.SecondType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Product__Categor__3B75D760" Association="Self.FK__Product__Categor__3B75D760">
+          <AssociationSet Name="FK__FirstType__UserI__3A81B327" Association="Self.FK__FirstType__UserI__3A81B327">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="FirstType" EntitySet="FirstType" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Categor__4222D4EF" Association="Self.FK__Product__Categor__4222D4EF">
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <AssociationSet Name="FK__Product__SecondI__4316F928" Association="Self.FK__Product__SecondI__4316F928">
+            <End Role="SecondType" EntitySet="SecondType" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SecondTyp__First__3D5E1FD2" Association="Self.FK__SecondTyp__First__3D5E1FD2">
+            <End Role="FirstType" EntitySet="FirstType" />
+            <End Role="SecondType" EntitySet="SecondType" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DigitalProductShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -72,6 +140,9 @@
           <Property Name="IsOnSale" Type="Boolean" Nullable="false" />
           <Property Name="AddTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="ProductCategory" Relationship="Self.FK__Product__Categor__3B75D760" FromRole="Product" ToRole="ProductCategory" />
+          <Property Name="SecondID" Type="Int32" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SecondType" Relationship="DigitalProductShopModel.FK__Product__SecondI__4316F928" FromRole="Product" ToRole="SecondType" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -88,6 +159,8 @@
           <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserPwd" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserCord" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FirstType" Relationship="DigitalProductShopModel.FK__FirstType__UserI__3A81B327" FromRole="UserInfo" ToRole="FirstType" />
         </EntityType>
         <Association Name="FK__Product__Categor__3B75D760">
           <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="0..1" />
@@ -109,7 +182,77 @@
             <End Role="ProductCategory" EntitySet="ProductCategory" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <EntitySet Name="FirstType" EntityType="DigitalProductShopModel.FirstType" />
+          <EntitySet Name="SecondType" EntityType="DigitalProductShopModel.SecondType" />
+          <AssociationSet Name="FK__FirstType__UserI__3A81B327" Association="DigitalProductShopModel.FK__FirstType__UserI__3A81B327">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="FirstType" EntitySet="FirstType" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SecondTyp__First__3D5E1FD2" Association="DigitalProductShopModel.FK__SecondTyp__First__3D5E1FD2">
+            <End Role="FirstType" EntitySet="FirstType" />
+            <End Role="SecondType" EntitySet="SecondType" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__SecondI__4316F928" Association="DigitalProductShopModel.FK__Product__SecondI__4316F928">
+            <End Role="SecondType" EntitySet="SecondType" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="FirstType">
+          <Key>
+            <PropertyRef Name="FirstID" />
+          </Key>
+          <Property Name="FirstID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="UserInfo" Relationship="DigitalProductShopModel.FK__FirstType__UserI__3A81B327" FromRole="FirstType" ToRole="UserInfo" />
+          <NavigationProperty Name="SecondType" Relationship="DigitalProductShopModel.FK__SecondTyp__First__3D5E1FD2" FromRole="FirstType" ToRole="SecondType" />
+        </EntityType>
+        <EntityType Name="SecondType">
+          <Key>
+            <PropertyRef Name="SecondID" />
+          </Key>
+          <Property Name="SecondID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SecondName" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="FirstID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FirstType" Relationship="DigitalProductShopModel.FK__SecondTyp__First__3D5E1FD2" FromRole="SecondType" ToRole="FirstType" />
+          <NavigationProperty Name="Product" Relationship="DigitalProductShopModel.FK__Product__SecondI__4316F928" FromRole="SecondType" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__FirstType__UserI__3A81B327">
+          <End Type="DigitalProductShopModel.UserInfo" Role="UserInfo" Multiplicity="0..1" />
+          <End Type="DigitalProductShopModel.FirstType" Role="FirstType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FirstType">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SecondTyp__First__3D5E1FD2">
+          <End Type="DigitalProductShopModel.FirstType" Role="FirstType" Multiplicity="1" />
+          <End Type="DigitalProductShopModel.SecondType" Role="SecondType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FirstType">
+              <PropertyRef Name="FirstID" />
+            </Principal>
+            <Dependent Role="SecondType">
+              <PropertyRef Name="FirstID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__SecondI__4316F928">
+          <End Type="DigitalProductShopModel.SecondType" Role="SecondType" Multiplicity="0..1" />
+          <End Type="DigitalProductShopModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SecondType">
+              <PropertyRef Name="SecondID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SecondID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -119,6 +262,8 @@
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="DigitalProductShopModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="SecondID" ColumnName="SecondID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="MarketPrice" ColumnName="MarketPrice" />
@@ -141,9 +286,28 @@
           <EntitySetMapping Name="UserInfo">
             <EntityTypeMapping TypeName="DigitalProductShopModel.UserInfo">
               <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="UserCord" ColumnName="UserCord" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserPwd" ColumnName="UserPwd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FirstType">
+            <EntityTypeMapping TypeName="DigitalProductShopModel.FirstType">
+              <MappingFragment StoreEntitySet="FirstType">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="FirstID" ColumnName="FirstID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SecondType">
+            <EntityTypeMapping TypeName="DigitalProductShopModel.SecondType">
+              <MappingFragment StoreEntitySet="SecondType">
+                <ScalarProperty Name="FirstID" ColumnName="FirstID" />
+                <ScalarProperty Name="SecondName" ColumnName="SecondName" />
+                <ScalarProperty Name="SecondID" ColumnName="SecondID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -52,10 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDal.cs" />
+    <Compile Include="FirstTypeDal.cs" />
     <Compile Include="GetDB.cs" />
     <Compile Include="ProductCategoryDal.cs" />
     <Compile Include="ProductDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecondTypeDal.cs" />
     <Compile Include="UserInfoDal.cs" />
   </ItemGroup>
   <ItemGroup>

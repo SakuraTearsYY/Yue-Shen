@@ -51,10 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FirstTypeBll.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="ProductBll.cs" />
     <Compile Include="ProductCategoryBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecondTypeBll.cs" />
     <Compile Include="UserInfoBll.cs" />
   </ItemGroup>
   <ItemGroup>

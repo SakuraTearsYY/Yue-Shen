@@ -29,5 +29,7 @@ namespace Demo01.Model.Data
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
+        public virtual DbSet<FirstType> FirstType { get; set; }
+        public virtual DbSet<SecondType> SecondType { get; set; }
     }
 }
