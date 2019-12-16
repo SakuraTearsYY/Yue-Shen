@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row" style="width: 1500px;margin: 0 auto;">
+        <form action="/File/UploadFiles" method="post" enctype="multipart/form-data">
+            <input type="file" name="fileBases" id="file1" />
+            <input type="submit" value="上传文件" />
+        </form>
+    </div>
+

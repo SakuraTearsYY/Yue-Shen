@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "FileListIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Scripts/paging.css" rel="stylesheet" />
+<section>
+    <div class="row" style="width: 1500px;margin: 0 auto;">
+        @Html.ActionLink("上传", "Index")
+        <table id="ListTb" class="table table-bordered">
+            <tr style="text-align:center;">
+                <th>文件名</th>
+                <th>目录</th>
+                <th>修改时间</th>
+                <th>全名</th>
+                <th>操作</th>
+            </tr>
+        </table>
+        <div class="pagebox" style="height:30px;" id="box"></div>
+        <script id="dataList" type="text/x-jquery-tmpl">
+            {{each Data}}
+            <tr>
+                <td>${filename}</td>
+                <td>${path}</td>
+                <td>${time}</td>
+                <td>${fullname}</td>
+                <td>
+                    <a href="/File/download?filename=${filename}" type="dicEdit" tid="${filename}">下载</a>
+                </td>
+            </tr>
+            {{/each}}
+        </script>
+    </div>
+</section>
+@section scripts{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.tmpl.js"></script>
+    <script src="~/Scripts/common.js"></script>
+    <script src="~/Scripts/paging.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var dic = {
+            queryList: function () {
+                _.queryList("/File/GetFileList", { "PageIndex": 0, "PageSize": 3 });
+            }
+        }
+        $(document).ready(function () {
+            dic.queryList();
+        })
+    </script>
+}

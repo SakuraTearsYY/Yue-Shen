@@ -28,9 +28,18 @@ namespace Demo01.UI.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult Page(int ID = 1)
+        public JsonResult Page(int ID = 1, int SID = 0)
         {
-            var data = product.Pages(6, ID, false);
+            IQueryable data;
+            if (SID == 0)
+            {
+                data = product.Pages(6, ID, x => true, false);
+            }
+            else
+            {
+                data = data = product.Pages(6, ID, x => x.pro.SecondID == SID, false);
+            }
+
             return Json(data);
         }
         [HttpPost]
@@ -44,13 +53,31 @@ namespace Demo01.UI.Controllers
         [HttpPost]
         public JsonResult Upd(int tid, string name, int price, int sprice, string det, int ty)
         {
-            Product model = product.Sel_ID(x => x.Id == tid);
-            model.ProductName = name;
-            model.SellingPrice = price;
-            model.MarketPrice = sprice;
-            model.Introduction = det;
-            model.CategoryId = ty;
-            return Json(product.Upd(model));
+            if (tid != 0)
+            {
+                Product model = product.Sel_ID(x => x.Id == tid);
+                model.ProductName = name;
+                model.SellingPrice = price;
+                model.MarketPrice = sprice;
+                model.Introduction = det;
+                model.CategoryId = ty;
+                return Json(product.Upd(model));
+            }
+            else
+            {
+                Product model = new Product();
+                model.ProductName = name;
+                model.SellingPrice = price;
+                model.MarketPrice = sprice;
+                model.Introduction = det;
+                model.CategoryId = ty;
+                model.SecondID = ty;
+                model.IsOnSale = true;
+                model.AddTime = DateTime.Now;
+                model.EndTime = default;
+                return Json(product.Ins(model));
+            }
+
         }
         [HttpPost]
         public JsonResult Del(int Id)
@@ -60,9 +87,17 @@ namespace Demo01.UI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Count()
+        public JsonResult Count(int SID = 2)
         {
-            count = product.Count();
+            if (SID == 0)
+            {
+                count = product.Count(x => true);
+            }
+            else
+            {
+                count = product.Count(x => x.pro.SecondID == SID);
+            }
+
             tem = count / 6;
             if (count % 6 != 0)
             {
@@ -87,6 +122,15 @@ namespace Demo01.UI.Controllers
             };
             var ret = JsonConvert.SerializeObject(data, setting);
             return Json(ret);
+        }
+
+        public ActionResult Load(IEnumerable<HttpPostAttribute> file1)
+        {
+            foreach (var item in file1)
+            {
+
+            }
+            return RedirectToAction("");
         }
     }
 }

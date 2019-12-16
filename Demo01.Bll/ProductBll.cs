@@ -51,9 +51,9 @@ namespace Demo01.Bll
         /// 获取数据条数
         /// </summary>
         /// <returns>数据总条数</returns>
-        public int Count() 
+        public int Count(Expression<Func<GroupModel, bool>> whereLambda) 
         {
-            return dal.Count();
+            return dal.Count(whereLambda);
         }
         /// <summary>
         /// 联合分页查询
@@ -62,9 +62,9 @@ namespace Demo01.Bll
         /// <param name="pageIndex">页数</param>
         /// <param name="IsDesc">是否降序</param>
         /// <returns>结果</returns>
-        public IQueryable<GroupModel> Pages(int size, int pageIndex,  bool IsDesc)
+        public IQueryable<GroupModel> Pages(int size, int pageIndex,Expression<Func<GroupModel,bool>>whereLambda , bool IsDesc)
         {
-            return dal.Pages(size, pageIndex, x=>x.pro.Id, IsDesc);
+            return dal.Pages(size, pageIndex, x=>x.pro.Id, whereLambda, IsDesc);
         }
         /// <summary>
         /// 添加

@@ -28,6 +28,10 @@
         #left {
             overflow: auto;
         }
+
+        .point {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -86,12 +90,15 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
+
         </div>
     </div>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript">
         $(function () {
             var ind = 0;
+            var SID = 0;
+            var num;
             function Menu() {
                 $.ajax({
                     url: "/home/Menu",
@@ -111,7 +118,7 @@
                             FirstMenuName = $.unique(FirstMenuName.sort());
                             for (var j = 0; j < FirstMenuIndex.length; j++) {
                                 console.log("一级菜单：" + FirstMenuName[j]);//append
-                                $("#left").append("<div class='Show'>" + FirstMenuName[j] + "<ul class='ul'></ul></div>")
+                                $("#left").append("<div class='Show point'>" + FirstMenuName[j] + "<ul class='ul'></ul></div>")
                                 Me(data, FirstMenuIndex[j])
 
                             }
@@ -127,7 +134,7 @@
                     if (Contents[i]["SecondMenu"] != null) {
                         if (Contents[i]["SecondMenu"].FirstID == Index) {
                             console.log("二级菜单：" + Contents[i]["SecondMenu"].SecondName)//append
-                            $(".ul").append("<li>" + Contents[i]["SecondMenu"].SecondName + "</li>")
+                            $(".ul").append("<li data-id=" + Contents[i]["SecondMenu"].SecondID + ">" + Contents[i]["SecondMenu"].SecondName + "</li>")
                         }
                     }
 
@@ -135,51 +142,74 @@
 
             }
             Menu()
-            function ShowMeun(num) {
-                var a=num
-                $(".Show").click(function () {
-                    $(".ul").eq($(this).index()).show(); 
-                    if (a > 0) {
-                        $(".ul").hide(); 
-                        a = 0;
-                        return;
-                    }
-                    a++
-                });
-                
-                //$(".ul").show();
-            }
-            function MenuClick() {
-                $(".ul").hide();
-                $(".ul li").click(function (event) {
-                    alert($(this).text())
-                    event.stopPropagation();
-                });
-            }
-            function coun() {
+            function coun(SID) {
                 $.ajax({
                     url: "/home/Count",
                     dataType: "json",
+                    data: { SID: SID },
                     type: "post",
                     success: function (res) {
+                        num = res
+                        alert(num)
                         if (res != 0) {
                             $("#pag a").remove();
                             for (var i = 0; i < res; i++) {
                                 $("#pag").append("<a class='but btn'>" + (i + 1) + "</a>");
                             }
                             $(".but").click(function () {
-                                band($(this).text())
+                                band($(this).text(), SID)
                                 ind = $(this).text();
                             });
                         }
                     }
                 });
             };
+            function ShowMeun(n) {
+                var a = n
+                $(".Show").click(function () {
+                    $(".ul").eq($(this).index()).show();
+                    if (a > 0) {
+                        $(".ul").hide();
+                        a = 0;
+                        return;
+                    }
+                    a++
+                });
 
-            function band(id) {
+                //$(".ul").show();
+            }
+            function MenuClick() {
+                $(".ul").hide();
+                $(".ul li").click(function (event) {
+                    SID = $(this).attr("data-id")
+                    coun(SID)
+                    if (num != 0) {
+                        band(1, SID)
+                    } else {
+                        switch ($(this).text()) {
+                            case "查看商品":
+                                band(1, 0)
+                                break;
+                            case "新增商品":
+                                $("#Upd").text("添加商品")
+                                $("#Upd").attr("id", "Ins")
+                                $('#myModal').modal('show')
+                                $("#Ins").click(function () {
+                                    Upd(0)
+                                });
+                                break;
+                        }
+                    }
+
+                    event.stopPropagation();
+                });
+            }
+            
+
+            function band(id, SID) {
                 $.ajax({
                     url: "/home/Page",
-                    data: { ID: id },
+                    data: { ID: id, SID: SID },
                     dataType: "json",
                     type: "post",
                     success: function (res) {
@@ -212,11 +242,11 @@
                                     success: function (res) {
                                         if (res) {
                                             if (ind == 0) {
-                                                band(1)
-                                                coun()
+                                                band(1, SID)
+                                                coun(SID)
                                             } else {
-                                                coun()
-                                                band(ind)
+                                                coun(SID)
+                                                band(ind, SID)
                                             }
 
                                         }
@@ -248,17 +278,18 @@
                 });
 
             }
-            band(1)
-            coun()
+            band(1, 0)
+            coun(SID)
             //$(".btns").click(function () {
             //    band($(this).text());
             //    ind = $(this).text();
             //});
-            $("#Upd").click(function () {
+
+            function Upd(TID) {
                 $.ajax({
                     url: "/home/Upd",
                     data: {
-                        tid: $("#lab").attr("data-id"),
+                        tid: TID,
                         name: $("#name").val(),
                         price: $("#price").val(),
                         sprice: $("#Sprice").val(),
@@ -279,7 +310,10 @@
                         }
                     }
                 });
-
+            }
+            $("#Upd").click(function () {
+                $("#Upd").text("提交更改")
+                Upd($("#lab").attr("data-id"));
             });
         });
     </script>
