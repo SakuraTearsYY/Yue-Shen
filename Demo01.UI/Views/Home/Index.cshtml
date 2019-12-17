@@ -93,230 +93,234 @@
 
         </div>
     </div>
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            var ind = 0;
-            var SID = 0;
-            var num;
-            function Menu() {
-                $.ajax({
-                    url: "/home/Menu",
-                    dataType: "json",
-                    type: "post",
-                    success: function (res) {
-                        var data = JSON.parse(res);
-                        console.log(data);
-                        if (data != null) {
-                            var FirstMenuIndex = [];
-                            var FirstMenuName = [];
-                            for (var i = 0; i < data.length; i++) {
-                                FirstMenuIndex.push(data[i]["FirstMenu"].FirstID);
-                                FirstMenuName.push(data[i]["FirstMenu"].FirstName);
-                            }
-                            FirstMenuIndex = $.unique(FirstMenuIndex.sort());//去重
-                            FirstMenuName = $.unique(FirstMenuName.sort());
-                            for (var j = 0; j < FirstMenuIndex.length; j++) {
-                                console.log("一级菜单：" + FirstMenuName[j]);//append
-                                $("#left").append("<div class='Show point'>" + FirstMenuName[j] + "<ul class='ul'></ul></div>")
-                                Me(data, FirstMenuIndex[j])
 
+        <script src="~/Scripts/jquery-3.3.1.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                var ind = 0;
+                var SID = 0;
+                var num;
+                function Menu() {
+                    $.ajax({
+                        url: "/home/Menu",
+                        dataType: "json",
+                        type: "post",
+                        success: function (res) {
+                            var data = JSON.parse(res);
+                            console.log(data);
+                            if (data != null) {
+                                var FirstMenuIndex = [];
+                                var FirstMenuName = [];
+                                for (var i = 0; i < data.length; i++) {
+                                    FirstMenuIndex.push(data[i]["FirstMenu"].FirstID);
+                                    FirstMenuName.push(data[i]["FirstMenu"].FirstName);
+                                }
+                                FirstMenuIndex = $.unique(FirstMenuIndex.sort());//去重
+                                FirstMenuName = $.unique(FirstMenuName.sort());
+                                for (var j = 0; j < FirstMenuIndex.length; j++) {
+                                    console.log("一级菜单：" + FirstMenuName[j]);//append
+                                    $("#left").append("<div class='Show point'>" + FirstMenuName[j] + "<ul class='ul'></ul></div>")
+                                    Me(data, FirstMenuIndex[j])
+
+                                }
+                            }
+                            ShowMeun(0)
+                            MenuClick()
+                        }
+                    });
+                }
+                //根据索引查找内data容
+                function Me(Contents, Index) {
+                    for (var i = 0; i < Contents.length; i++) {
+                        if (Contents[i]["SecondMenu"] != null) {
+                            if (Contents[i]["SecondMenu"].FirstID == Index) {
+                                console.log("二级菜单：" + Contents[i]["SecondMenu"].SecondName)//append
+                                $(".ul").append("<li data-id=" + Contents[i]["SecondMenu"].SecondID + ">" + Contents[i]["SecondMenu"].SecondName + "</li>")
                             }
                         }
-                        ShowMeun(0)
-                        MenuClick()
-                    }
-                });
-            }
-            //根据索引查找内data容
-            function Me(Contents, Index) {
-                for (var i = 0; i < Contents.length; i++) {
-                    if (Contents[i]["SecondMenu"] != null) {
-                        if (Contents[i]["SecondMenu"].FirstID == Index) {
-                            console.log("二级菜单：" + Contents[i]["SecondMenu"].SecondName)//append
-                            $(".ul").append("<li data-id=" + Contents[i]["SecondMenu"].SecondID + ">" + Contents[i]["SecondMenu"].SecondName + "</li>")
-                        }
+
                     }
 
                 }
-
-            }
-            Menu()
-            function coun(SID) {
-                $.ajax({
-                    url: "/home/Count",
-                    dataType: "json",
-                    data: { SID: SID },
-                    type: "post",
-                    success: function (res) {
-                        num = res
-                        //alert(num)
-                        if (res != 0) {
-                            $("#pag a").remove();
-                            for (var i = 0; i < res; i++) {
-                                $("#pag").append("<a class='but btn'>" + (i + 1) + "</a>");
-                            }
-                            $(".but").click(function () {
-                                band($(this).text(), SID)
-                                ind = $(this).text();
-                            });
-                        }
-                    }
-                });
-            };
-            function ShowMeun(n) {
-                var a = n
-                $(".Show").click(function () {
-                    $(".ul").eq($(this).index()).show();
-                    if (a > 0) {
-                        $(".ul").hide();
-                        a = 0;
-                        return;
-                    }
-                    a++
-                });
-
-                //$(".ul").show();
-            }
-            function MenuClick() {
-                $(".ul").hide();
-                $(".ul li").click(function (event) {
-                    SID = $(this).attr("data-id")
-                    coun(SID)
-                    if (num != 0) {
-                        band(1, SID)
-                    } else {
-                        switch ($(this).text()) {
-                            case "查看商品":
-                                band(1, 0)
-                                break;
-                            case "新增商品":
-                                $("#Upd").text("添加商品")
-                                $("#Upd").attr("id", "Ins")
-                                $('#myModal').modal('show')
-                                $("#Ins").click(function () {
-                                    Upd(0)
+                Menu()
+                function coun(SID) {
+                    $.ajax({
+                        url: "/home/Count",
+                        dataType: "json",
+                        data: { SID: SID },
+                        type: "post",
+                        success: function (res) {
+                            num = res
+                            //alert(num)
+                            if (res != 0) {
+                                $("#pag a").remove();
+                                for (var i = 0; i < res; i++) {
+                                    $("#pag").append("<a class='but btn'>" + (i + 1) + "</a>");
+                                }
+                                $(".but").click(function () {
+                                    band($(this).text(), SID)
+                                    ind = $(this).text();
                                 });
-                                break;
-                        }
-                    }
-
-                    event.stopPropagation();
-                });
-            }
-            
-
-            function band(id, SID) {
-                $.ajax({
-                    url: "/home/Page",
-                    data: { ID: id, SID: SID },
-                    dataType: "json",
-                    type: "post",
-                    success: function (res) {
-                        if (res != null) {
-                            $("#page tr").remove();
-                            $("#page").append("<tr style='font-size:20px;'><td>商品名称</td><td>市场价格</td><td>商品售价</td><td>产品介绍</td><td>商品类别</td><td>操作</td></tr>");
-                            for (var i = 0; i < res.length; i++) {
-                                $("#page").append("<tr><td>"
-                                    + res[i]["pro"].ProductName +
-                                    "</td><td>"
-                                    + res[i]["pro"].SellingPrice +
-                                    "</td><td>"
-                                    + res[i]["pro"].MarketPrice +
-                                    "</td><td>"
-                                    + res[i]["pro"].Introduction +
-                                    "</td><td>"
-                                    + res[i].Name +
-                                    "</td><td><input data-id="
-                                    + res[i]["pro"].Id +
-                                    " class='button' type='button' value='修改'><input data-id="
-                                    + res[i]["pro"].Id +
-                                    " class='Del' type='button' value='删除'></td></tr>");
                             }
-                            $(".Del").click(function () {
-                                $.ajax({
-                                    url: "/home/Del",
-                                    data: { Id: $(this).attr("data-id") },
-                                    dataType: "json",
-                                    type: "post",
-                                    success: function (res) {
-                                        if (res) {
-                                            if (ind == 0) {
-                                                band(1, SID)
-                                                coun(SID)
-                                            } else {
-                                                coun(SID)
-                                                band(ind, SID)
+                        }
+                    });
+                };
+                function ShowMeun(n) {
+                    var a = n
+                    $(".Show").click(function () {
+                        $(".ul").eq($(this).index()).show();
+                        if (a > 0) {
+                            $(".ul").hide();
+                            a = 0;
+                            return;
+                        }
+                        a++
+                    });
+
+                    //$(".ul").show();
+                }
+                function MenuClick() {
+                    $(".ul").hide();
+                    $(".ul li").click(function (event) {
+                        SID = $(this).attr("data-id")
+                        coun(SID)
+                        if (num != 0) {
+                            band(1, SID)
+                        } else {
+                            switch ($(this).text()) {
+                                case "查看商品":
+                                    event.stopPropagation();
+                                    band(1, 0)
+                                    break;
+                                case "新增商品":
+                                    event.stopPropagation();
+                                    $("#Upd").text("添加商品")
+                                    $("#Upd").attr("id", "Ins")
+                                    $('#myModal').modal('show')
+                                    $("#Ins").click(function () {
+                                        Upd(0)
+                                    });
+                                    break;
+                            }
+                        }
+
+                        event.stopPropagation();
+                    });
+                }
+
+
+                function band(id, SID) {
+                    $.ajax({
+                        url: "/home/Page",
+                        data: { ID: id, SID: SID },
+                        dataType: "json",
+                        type: "post",
+                        success: function (res) {
+                            if (res != null) {
+                                $("#page tr").remove();
+                                $("#page").append("<tr style='font-size:20px;'><td>商品名称</td><td>市场价格</td><td>商品售价</td><td>产品介绍</td><td>商品类别</td><td>操作</td></tr>");
+                                for (var i = 0; i < res.length; i++) {
+                                    $("#page").append("<tr><td>"
+                                        + res[i]["pro"].ProductName +
+                                        "</td><td>"
+                                        + res[i]["pro"].SellingPrice +
+                                        "</td><td>"
+                                        + res[i]["pro"].MarketPrice +
+                                        "</td><td>"
+                                        + res[i]["pro"].Introduction +
+                                        "</td><td>"
+                                        + res[i].Name +
+                                        "</td><td><input data-id="
+                                        + res[i]["pro"].Id +
+                                        " class='button' type='button' value='修改'><input data-id="
+                                        + res[i]["pro"].Id +
+                                        " class='Del' type='button' value='删除'></td></tr>");
+                                }
+                                $(".Del").click(function () {
+                                    $.ajax({
+                                        url: "/home/Del",
+                                        data: { Id: $(this).attr("data-id") },
+                                        dataType: "json",
+                                        type: "post",
+                                        success: function (res) {
+                                            if (res) {
+                                                if (ind == 0) {
+                                                    band(1, SID)
+                                                    coun(SID)
+                                                } else {
+                                                    coun(SID)
+                                                    band(ind, SID)
+                                                }
+
                                             }
-
                                         }
-                                    }
+                                    });
                                 });
-                            });
-                            $(".button").click(function () {
-                                $('#myModal').modal('show')
-                                $.ajax({
-                                    url: "/home/Sel",
-                                    data: { Id: $(this).attr("data-id") },
-                                    dataType: "json",
-                                    type: "post",
-                                    success: function (res) {
-                                        console.log(res);
-                                        if (res != null) {
-                                            $("#lab").attr("data-id", res["pro"].Id);
-                                            $("#name").val(res["pro"].ProductName)
-                                            $("#price").val(res["pro"].SellingPrice)
-                                            $("#Sprice").val(res["pro"].MarketPrice)
-                                            $("#Det").val(res["pro"].Introduction)
-                                            $("#type").find("option").eq(res["pro"].CategoryId - 1).prop("selected", true)
+                                $(".button").click(function () {
+                                    $('#myModal').modal('show')
+                                    $.ajax({
+                                        url: "/home/Sel",
+                                        data: { Id: $(this).attr("data-id") },
+                                        dataType: "json",
+                                        type: "post",
+                                        success: function (res) {
+                                            console.log(res);
+                                            if (res != null) {
+                                                $("#lab").attr("data-id", res["pro"].Id);
+                                                $("#name").val(res["pro"].ProductName)
+                                                $("#price").val(res["pro"].SellingPrice)
+                                                $("#Sprice").val(res["pro"].MarketPrice)
+                                                $("#Det").val(res["pro"].Introduction)
+                                                $("#type").find("option").eq(res["pro"].CategoryId - 1).prop("selected", true)
+                                            }
                                         }
-                                    }
+                                    });
                                 });
-                            });
-                        }
-                    }
-                });
-
-            }
-            band(1, 0)
-            coun(SID)
-            //$(".btns").click(function () {
-            //    band($(this).text());
-            //    ind = $(this).text();
-            //});
-
-            function Upd(TID) {
-                $.ajax({
-                    url: "/home/Upd",
-                    data: {
-                        tid: TID,
-                        name: $("#name").val(),
-                        price: $("#price").val(),
-                        sprice: $("#Sprice").val(),
-                        det: $("#Det").val(),
-                        ty: $("#type").find("option:selected").val()
-                    },
-                    dataType: "json",
-                    type: "post",
-                    success: function (res) {
-                        if (res) {
-                            $('#myModal').modal('hide')
-                            if (ind == 0) {
-                                band(1)
-                            } else {
-                                band(ind)
                             }
-
                         }
-                    }
+                    });
+
+                }
+                band(1, 0)
+                coun(SID)
+                //$(".btns").click(function () {
+                //    band($(this).text());
+                //    ind = $(this).text();
+                //});
+
+                function Upd(TID) {
+                    $.ajax({
+                        url: "/home/Upd",
+                        data: {
+                            tid: TID,
+                            name: $("#name").val(),
+                            price: $("#price").val(),
+                            sprice: $("#Sprice").val(),
+                            det: $("#Det").val(),
+                            ty: $("#type").find("option:selected").val()
+                        },
+                        dataType: "json",
+                        type: "post",
+                        success: function (res) {
+                            if (res) {
+                                $('#myModal').modal('hide')
+                                if (ind == 0) {
+                                    band(1)
+                                } else {
+                                    band(ind)
+                                }
+
+                            }
+                        }
+                    });
+                }
+                $("#Upd").click(function () {
+                    $("#Upd").text("提交更改")
+                    Upd($("#lab").attr("data-id"));
                 });
-            }
-            $("#Upd").click(function () {
-                $("#Upd").text("提交更改")
-                Upd($("#lab").attr("data-id"));
             });
-        });
-    </script>
+        </script>
+
 </body>
 </html>
 
