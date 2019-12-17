@@ -39,7 +39,6 @@ namespace Demo01.UI.Controllers
             {
                 data = data = product.Pages(6, ID, x => x.pro.SecondID == SID, false);
             }
-
             return Json(data);
         }
         [HttpPost]
