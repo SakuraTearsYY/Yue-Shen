@@ -12,15 +12,15 @@ namespace Demo01.Dal
     {
         readonly Code_Entities db = new Code_Entities();
 
-        public int Count() 
+        public int Count(Expression<Func<GroupModel, bool>> WhereLmbda)
         {
             return (from u in db.Product
                     join t in db.ProductCategory
                     on u.CategoryId equals t.Id
-                    select new GroupModel { pro = u, Name = t.Name }).Count();
+                    select new GroupModel { pro = u, Name = t.Name }).Where(WhereLmbda).Count();
         }
 
-        public GroupModel GroupSel(Expression<Func<GroupModel,bool>>whereLambda) 
+        public GroupModel GroupSel(Expression<Func<GroupModel, bool>> whereLambda)
         {
             var temp = (from u in db.Product
                         join t in db.ProductCategory
@@ -28,7 +28,7 @@ namespace Demo01.Dal
                         select new GroupModel { pro = u, Name = t.Name });
             return temp.First(whereLambda);
         }
-        public IQueryable<GroupModel> Pages<S>(int size, int pageIndex, Expression<Func<GroupModel, S>> orderby, bool IsDesc)
+        public IQueryable<GroupModel> Pages<S>(int size, int pageIndex, Expression<Func<GroupModel, S>> orderby, Expression<Func<GroupModel, bool>> whereLambda, bool IsDesc)
         {
             if (IsDesc)
             {
@@ -36,6 +36,7 @@ namespace Demo01.Dal
                             join t in db.ProductCategory
                             on u.CategoryId equals t.Id
                             select new GroupModel { pro = u, Name = t.Name })
+                            .Where(whereLambda)
                     .OrderByDescending(orderby)
                     .Skip(size * (pageIndex - 1))
                     .Take(size)
@@ -48,13 +49,14 @@ namespace Demo01.Dal
                             join t in db.ProductCategory
                             on u.CategoryId equals t.Id
                             select new GroupModel { pro = u, Name = t.Name })
+                             .Where(whereLambda)
                     .OrderBy(orderby)
                     .Skip(size * (pageIndex - 1))
                     .Take(size)
                     .AsQueryable();
                 return temp;
             }
-             
+
         }
     }
 }
