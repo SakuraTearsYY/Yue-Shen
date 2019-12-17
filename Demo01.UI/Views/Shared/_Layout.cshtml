@@ -5,16 +5,116 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/css/matrix-media.css" rel="stylesheet" />
+    <link href="~/css/matrix-style.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
 </head>
 <body>
-    @RenderBody()
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    
+        <div style="margin-top: -60px;">
+            <div id="header">
+                <h1>3C数码商城</h1>
+            </div>
+            <div id="user-nav" class="navbar navbar-inverse">
+                <ul class="nav">
+                    <li class="dropdown" id="profile-messages">
+                        <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+                            <i class="icon icon-user"></i>
+                            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+                        </a>
+                    </li>
+                    <li class=""><a title="" href="#"><i class="icon icon-share-alt"></i><span class="text">退出</span></a></li>
+                </ul>
+            </div>
+            <div id="search">
+                <input type="text" placeholder="请输入搜索内容..." />
+                <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+            </div>
+            <div id="sidebar">
+                <!-- <a href="#" class="visible-phone"><i class="icon icon-list"></i>Forms</a> -->
+                <ul>
+                    <li class="submenu">
+                        <a href="#"><i class="icon icon-signal"></i><span>文件上传</span></a>
+                        <ul>
+                            <li><a href="/File/Index">上传</a></li>
+                            <li><a href="/File/FileListIndex">查看</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="content">
+                <div id="content-header">
+                    <div id="breadcrumb" style="margin-top: 12px;">
+                        <a href="/Home/Index" title="返回房间信息" class="tip-bottom">
+                            <i class="icon-home"></i>商品信息
+                        </a>
+                    </div>
+                    <div class="all" style="height:900px;background-color:white;">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="~/Scripts/jquery-3.3.1.js"></script>
+        <script src="~/js/matrix.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/jquery.min.js"></script>
+        <script>
+            function Menu() {
+                $.ajax({
+                    url: "/home/Menu",
+                    dataType: "json",
+                    type: "post",
+                    success: function (res) {
+                        var data = JSON.parse(res);
+                        console.log(data);
+                        if (data != null) {
+                            var FirstMenuIndex = [];
+                            var FirstMenuName = [];
+                            for (var i = 0; i < data.length; i++) {
+                                FirstMenuIndex.push(data[i]["FirstMenu"].FirstID);
+                                FirstMenuName.push(data[i]["FirstMenu"].FirstName);
+                            }
+                            FirstMenuIndex = $.unique(FirstMenuIndex.sort());//去重
+                            FirstMenuName = $.unique(FirstMenuName.sort());
+                            console.log(FirstMenuIndex);
+                            for (var j = 0; j < FirstMenuIndex.length; j++) {
+                                console.log("一级菜单：" + FirstMenuName[j]);//append
+                                $("#sidebar ul:eq(0)").append("<li class='submenu Show point'><a href='#'><i class='icon'></i><span>" + FirstMenuName[j] + "</span></a><ul class='Firstmenu'><ul/></li>")
+                                
+                                Me(data, FirstMenuIndex[j])
+                            }
+                        }
+                        var photos = ["icon-signal", "icon-inbox", "icon-pencil","icon-tint"];
+                        for (var i = 0; i < photos.length; i++) {
+                            $("#sidebar ul i").eq(i).addClass(photos[i]);
+                        }
+                        //ShowMeun(0)
+                        //MenuClick()
+                    }
+                });
+            }
+            //根据索引查找内data容
+            function Me(Contents, Index) {
+                for (var i = 0; i < Contents.length; i++) {
+                    if (Contents[i]["SecondMenu"] != null) {
+                        if (Contents[i]["SecondMenu"].FirstID == Index) {
+                            console.log("二级菜单：" + Contents[i]["SecondMenu"].SecondName)//append
+                            $(".Firstmenu").append("<li data-id=" + Contents[i]["SecondMenu"].SecondID + "><a href='#'>" + Contents[i]["SecondMenu"].SecondName + "</a></li>")
+                        }
+                    }
+
+                }
+
+            }
+            Menu()
+        </script>
 </body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+
 </html>
