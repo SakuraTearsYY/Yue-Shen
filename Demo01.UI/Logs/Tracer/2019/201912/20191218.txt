@@ -131,3 +131,31 @@
 出错类：Logger property: [(null)] - 
 错误描述：123456登录
  
+
+记录时间：2019-12-18 09:52:45,689 
+线程ID:[10] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-18 09:53:07,377 
+线程ID:[11] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-18 10:00:33,539 
+线程ID:[27] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-18 10:11:37,627 
+线程ID:[56] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 

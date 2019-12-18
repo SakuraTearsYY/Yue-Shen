@@ -15,36 +15,19 @@
         #page {
             height: 200px;
             margin: 0 auto;
-            /*border: 1px solid red;*/
         }
-
-        #left {
-            /*width: 200px;
-            height: 400px;
-            border: 1px solid red;
-            float: left;*/
-        }
-
-        #left {
-            overflow: auto;
-        }
-
         .point {
             cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div id="left"></div>
     <div id="right">
         <table id="page" class="table table-hover text-center">
-        </table>
+            @*分页标签*@
+            </table>
         <div id="choose">
-            @*@for (int i = 0; i < Count; i++)
-                {
-                    <a class="btns btn" href="javascript:void(0)">@(i + 1)</a>
-                }*@
-            <p id="pag"></p>
+            <p id="pag"></p>@*页数标签*@
         </div>
     </div>
     <!--模态框-->
@@ -96,9 +79,13 @@
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript">
         $(function () {
-            var ind = 0;
-            var SID = 0;
-            var num;
+            var ind = 0;//页数
+            var SID = 0;//类别
+            var num;//类别id
+            band(1, 0)
+            coun(SID)
+            MenuClick()
+            //返回首页（刷新）
             $(".text").click(function () {
                 $.ajax({
                     url: "/home/band",
@@ -106,57 +93,14 @@
                     dataType: "json",
                     success: function (res) {
                         console.log(res)
-                        if (res==0) {
-                             location.reload();
+                        if (res == 0) {
+                            location.reload();
                         }
-                       
+
                     }
                 });
             });
-            //location.reload();
-            function Menu() {
-                $.ajax({
-                    url: "/home/Menu",
-                    dataType: "json",
-                    type: "post",
-                    success: function (res) {
-                        var data = JSON.parse(res);
-                        //console.log(data);
-                        if (data != null) {
-                            var FirstMenuIndex = [];
-                            var FirstMenuName = [];
-                            for (var i = 0; i < data.length; i++) {
-                                FirstMenuIndex.push(data[i]["FirstMenu"].FirstID);
-                                FirstMenuName.push(data[i]["FirstMenu"].FirstName);
-                            }
-                            FirstMenuIndex = $.unique(FirstMenuIndex.sort());//去重
-                            FirstMenuName = $.unique(FirstMenuName.sort());
-                            for (var j = 0; j < FirstMenuIndex.length; j++) {
-                                console.log("一级菜单：" + FirstMenuName[j]);//append
-                                $("#left").append("<div class='Show point>" + FirstMenuName[j] + "<ul class='ul'></ul></div>")
-                                Me(data, FirstMenuIndex[j])
-
-                            }
-                        }
-                        ShowMeun(0)
-                        MenuClick()
-                    }
-                });
-            }
-            //根据索引查找内data容
-            function Me(Contents, Index) {
-                for (var i = 0; i < Contents.length; i++) {
-                    if (Contents[i]["SecondMenu"] != null) {
-                        if (Contents[i]["SecondMenu"].FirstID == Index) {
-                            console.log("二级菜单：" + Contents[i]["SecondMenu"].SecondName)//append
-                            $(".ul").append("<li data-id=" + Contents[i]["SecondMenu"].SecondID + ">" + Contents[i]["SecondMenu"].SecondName + "</li>")
-                        }
-                    }
-
-                }
-
-            }
-            //Menu()
+            //页数绑定
             function coun(SID) {
                 $.ajax({
                     url: "/home/Count",
@@ -165,7 +109,6 @@
                     type: "post",
                     success: function (res) {
                         num = res
-                        //alert(num)
                         if (res != 0) {
                             $("#pag a").remove();
                             for (var i = 0; i < res; i++) {
@@ -179,23 +122,8 @@
                     }
                 });
             };
-            function ShowMeun(n) {
-                var a = n
-                $(".Show").click(function () {
-                    $(".ul").eq($(this).index()).show();
-                    if (a > 0) {
-                        $(".ul").hide();
-                        a = 0;
-                        return;
-                    }
-                    a++
-                });
-
-                //$(".ul").show();
-            }
-            MenuClick()
+            //菜单点击事件
             function MenuClick() {
-               
                 $(".Firstmenu li a").click(function (event) {
                     SID = $(this).attr("data-id")
                     coun(SID)
@@ -216,19 +144,17 @@
                                 break;
                         }
                     }
-
                     event.stopPropagation();
                 });
             }
-
-
+            //分页
             function band(id, SID) {
-                
                 $.ajax({
                     url: "/home/Page",
                     data: { ID: id, SID: SID },
                     dataType: "json",
                     type: "post",
+                    //分页绑定
                     success: function (res) {
                         if (res != null) {
                             $("#page tr").remove();
@@ -250,6 +176,7 @@
                                     + res[i]["pro"].Id +
                                     " class='Del' type='button' value='删除'></td></tr>");
                             }
+                            //删除事件
                             $(".Del").click(function () {
                                 $.ajax({
                                     url: "/home/Del",
@@ -270,6 +197,7 @@
                                     }
                                 });
                             });
+                            //模态框赋值
                             $(".button").click(function () {
                                 $('#myModal').modal('show')
                                 $.ajax({
@@ -295,13 +223,7 @@
                 });
 
             }
-            band(1, 0)
-            coun(SID)
-            //$(".btns").click(function () {
-            //    band($(this).text());
-            //    ind = $(this).text();
-            //});
-
+            //更新函数
             function Upd(TID) {
                 $.ajax({
                     url: "/home/Upd",
@@ -323,11 +245,11 @@
                             } else {
                                 band(ind)
                             }
-
                         }
                     }
                 });
             }
+            //点击执行
             $("#Upd").click(function () {
                 $("#Upd").text("提交更改")
                 Upd($("#lab").attr("data-id"));
