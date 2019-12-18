@@ -99,6 +99,7 @@
             var ind = 0;
             var SID = 0;
             var num;
+            //location.reload();
             function Menu() {
                 $.ajax({
                     url: "/home/Menu",
@@ -120,7 +121,7 @@
                                 console.log("一级菜单：" + FirstMenuName[j]);//append
                                 $("#left").append("<div class='Show point>" + FirstMenuName[j] + "<ul class='ul'></ul></div>")
                                 Me(data, FirstMenuIndex[j])
-                                    
+
                             }
                         }
                         ShowMeun(0)
@@ -178,9 +179,10 @@
 
                 //$(".ul").show();
             }
+            MenuClick()
             function MenuClick() {
-                $(".ul").hide();
-                $(".ul li").click(function (event) {
+               
+                $(".Firstmenu li a").click(function (event) {
                     SID = $(this).attr("data-id")
                     coun(SID)
                     if (num != 0) {
@@ -204,9 +206,10 @@
                     event.stopPropagation();
                 });
             }
-            
+
 
             function band(id, SID) {
+                
                 $.ajax({
                     url: "/home/Page",
                     data: { ID: id, SID: SID },

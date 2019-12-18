@@ -21,12 +21,12 @@
             <div id="user-nav" class="navbar navbar-inverse">
                 <ul class="nav">
                     <li class="dropdown" id="profile-messages">
-                        <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+                        <a title="" href="javascript:void(0)" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
                             <i class="icon icon-user"></i>
                             <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
                         </a>
                     </li>
-                    <li class=""><a title="" href="#"><i class="icon icon-share-alt"></i><span class="text">退出</span></a></li>
+                    <li class=""><a title="" href="javascript:void(0)"><i class="icon icon-share-alt"></i><span class="text">退出</span></a></li>
                 </ul>
             </div>
             <div id="search">
@@ -37,7 +37,7 @@
                 <!-- <a href="#" class="visible-phone"><i class="icon icon-list"></i>Forms</a> -->
                 <ul>
                     <li class="submenu">
-                        <a href="#"><i class="icon icon-signal"></i><span>文件上传</span></a>
+                        <a href="javascript:void(0)"><i class="icon icon-signal"></i><span>文件上传</span></a>
                         <ul>
                             <li><a href="/File/Index">上传</a></li>
                             <li><a href="/File/FileListIndex">查看</a></li>
@@ -83,7 +83,7 @@
                             console.log(FirstMenuIndex);
                             for (var j = 0; j < FirstMenuIndex.length; j++) {
                                 console.log("一级菜单：" + FirstMenuName[j]);//append
-                                $("#sidebar ul:eq(0)").append("<li class='submenu Show point'><a href='#'><i class='icon'></i><span>" + FirstMenuName[j] + "</span></a><ul class='Firstmenu'><ul/></li>")
+                                $("#sidebar ul:eq(0)").append("<li class='submenu Show point'><a href='javascript:void(0)'><i class='icon'></i><span>" + FirstMenuName[j] + "</span></a><ul class='Firstmenu'><ul/></li>")
                                 
                                 Me(data, FirstMenuIndex[j])
                             }
@@ -103,7 +103,7 @@
                     if (Contents[i]["SecondMenu"] != null) {
                         if (Contents[i]["SecondMenu"].FirstID == Index) {
                             console.log("二级菜单：" + Contents[i]["SecondMenu"].SecondName)//append
-                            $(".Firstmenu").append("<li data-id=" + Contents[i]["SecondMenu"].SecondID + "><a href='#'>" + Contents[i]["SecondMenu"].SecondName + "</a></li>")
+                            $(".Firstmenu").append("<li ><a href='javascript:void(0)' data-id=" + Contents[i]["SecondMenu"].SecondID + ">" + Contents[i]["SecondMenu"].SecondName + "</a></li>")
                         }
                     }
 
