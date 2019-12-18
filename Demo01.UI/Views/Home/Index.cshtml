@@ -99,6 +99,20 @@
             var ind = 0;
             var SID = 0;
             var num;
+            $(".text").click(function () {
+                $.ajax({
+                    url: "/home/band",
+                    type: "post",
+                    dataType: "json",
+                    success: function (res) {
+                        console.log(res)
+                        if (res==0) {
+                             location.reload();
+                        }
+                       
+                    }
+                });
+            });
             //location.reload();
             function Menu() {
                 $.ajax({

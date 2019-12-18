@@ -68,7 +68,7 @@
                     <div class="styled-input__circle"></div>
                 </div>
                 <div class="styled-input">
-                    <input type="text" class="styled-input__input" id="pwd">
+                    <input type="password" class="styled-input__input" id="pwd">
                     <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">密码</span> </div>
                     <div class="styled-input__circle"></div>
                 </div>
@@ -89,6 +89,8 @@
 
 <script type="text/javascript">
     $(function () {
+        $("#name").val(null)
+        $("#pwd").val(null)
         $("#btn").click(function () {
             $.ajax({
                 url: "/Account/Vad",

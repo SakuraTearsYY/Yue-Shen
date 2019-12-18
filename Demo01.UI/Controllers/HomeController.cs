@@ -43,6 +43,17 @@ namespace Demo01.UI.Controllers
             return Json(data);
         }
         [HttpPost]
+        public JsonResult band() 
+        {
+            Session["us"] = null;
+            if (Session["us"] == null)
+            {
+                return Json(0);
+            }
+            return Json(1);
+        }
+
+        [HttpPost]
         public JsonResult Sel(int Id)
         {
             var data = product.GroupSel(x => x.pro.Id == Id);
