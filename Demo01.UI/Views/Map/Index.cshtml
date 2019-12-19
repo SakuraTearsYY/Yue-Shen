@@ -1,0 +1,77 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script language="javascript" src="http://api.51ditu.com/js/maps.js"></script>
+    <script language="javascript" src="http://api.51ditu.com/js/ezmarker.js"></script>
+    <script src="~/js/jquery-1.7.js"></script>
+</head>
+<body>*
+    <div style="margin:0 auto;width:600px;">
+        <form id="form1" runat="server" οnsubmit="return getPoi()">
+            <div>
+                <div id="myMap" style="position: relative; width: 600px; height: 300px;">
+                    //显示引入的地图
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script language="javascript">
+
+    var maps = new LTMaps("myMap"); //显示地图
+    maps.cityNameAndZoom("zhengzhou", 5);//北京//cityNameAndZoom为了兼容以前的版本而预留
+</script>
+<script language="javascript">
+    var maps = new LTMaps("myMap");
+    maps.cityNameAndZoom("zhengzhou", 5);
+    var control = new LTMarkControl();//LTMarkControl 标注控件，用来让用户在地图上标注一个点，可以通过该控件提供的事件来获得用户标点的位置
+    maps.addControl(control);//向地图上添加一个控件,可以是系统集成的控件或自定义控件
+    function getPoi() {
+        var poi = control.getMarkControlPoint();     //获取用户标注的点，如果用户还没标点，则返回null       
+        loadXMLDoc('Default4.aspx?x=' + poi.getLatitude() + '&y=' + poi.getLongitude());//取出的值传给当前页面
+    }
+
+
+    LTEvent.addListener(control, "mouseup", getPoi);//事件处里
+</script>
+<script language="javascript" type="text/javascript">
+    var xmlhttp
+    function loadXMLDoc(url) {
+        // code for Mozilla, etc.
+        if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest()
+            xmlhttp.onreadystatechange = xmlhttpChange
+            xmlhttp.open("GET", url, true)
+            xmlhttp.send(null)
+        }
+        // code for IE
+        else if (window.ActiveXObject) {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
+            if (xmlhttp) {
+                xmlhttp.onreadystatechange = xmlhttpChange
+                xmlhttp.open("GET", url, true)
+                xmlhttp.send()
+            }
+        }
+    }
+    function xmlhttpChange() {
+        // if xmlhttp shows "loaded"
+        if (xmlhttp.readyState == 4) {
+            // if "OK"
+            if (xmlhttp.status == 200) {
+                // ...some code here...
+            }
+            else {
+                alert("Problem retrieving XML data")
+            }
+        }
+    }
+</script>
+</html>
