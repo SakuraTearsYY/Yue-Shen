@@ -16,6 +16,7 @@
             height: 200px;
             margin: 0 auto;
         }
+
         .point {
             cursor: pointer;
         }
@@ -23,9 +24,16 @@
 </head>
 <body>
     <div id="right">
+        <select class="form-control" id="ty">
+            <option selected="selected" value="0">全部</option>
+            @foreach (var item in type)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
         <table id="page" class="table table-hover text-center">
             @*分页标签*@
-            </table>
+        </table>
         <div id="choose">
             <p id="pag"></p>@*页数标签*@
         </div>
@@ -241,9 +249,11 @@
                         if (res) {
                             $('#myModal').modal('hide')
                             if (ind == 0) {
-                                band(1)
+                                band(1, SID)
+                                coun(SID)
                             } else {
-                                band(ind)
+                                coun(SID)
+                                band(ind, SID)
                             }
                         }
                     }
@@ -253,6 +263,11 @@
             $("#Upd").click(function () {
                 $("#Upd").text("提交更改")
                 Upd($("#lab").attr("data-id"));
+            });
+            $("#ty").change(function () {
+                SID = $(this).val()
+                coun(SID)
+                band(1, SID)
             });
         });
     </script>

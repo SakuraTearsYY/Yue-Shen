@@ -110,3 +110,17 @@
 出错类：Logger property: [(null)] - 
 错误描述：admin登录
  
+
+记录时间：2019-12-19 11:25:08,455 
+线程ID:[14] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
+
+记录时间：2019-12-19 11:45:54,503 
+线程ID:[34] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
