@@ -225,16 +225,15 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\FileListIndex.cshtml" />
     <Content Include="Upload\.NET面试宝典.docx" />
     <Content Include="Upload\人事面试常见问题及回答.pdf" />
     <Content Include="Views\Account\Create.cshtml" />
+    <Content Include="Views\File\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="wenjian\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
