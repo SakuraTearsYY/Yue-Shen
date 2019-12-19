@@ -37,10 +37,17 @@
                 <!-- <a href="#" class="visible-phone"><i class="icon icon-list"></i>Forms</a> -->
                 <ul>
                     <li class="submenu">
-                        <a href="javascript:void(0)"><i class="icon icon-signal"></i><span>文件上传</span></a>
+                        <a href="Javascript:void(0)"><i class="icon"></i><span>文件上传</span></a>
                         <ul>
                             <li><a href="/File/Index">上传</a></li>
                             <li><a href="/File/FileListIndex">查看</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="Javascript:void(0)"><i class="icon"></i><span>图表</span></a>
+                        <ul>
+                            <li><a href="/Map/Index">地图</a></li>
+                            <li><a href="/Map/Proctive">统计图</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -88,7 +95,7 @@
                                 Me(data, FirstMenuIndex[j])
                             }
                         }
-                        var photos = ["icon-signal", "icon-inbox", "icon-pencil","icon-tint"];
+                        var photos = ["icon-signal", "icon-inbox", "icon-pencil", "icon-tint", "icon-file"];
                         for (var i = 0; i < photos.length; i++) {
                             $("#sidebar ul i").eq(i).addClass(photos[i]);
                         }
