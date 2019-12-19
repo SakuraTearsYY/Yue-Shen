@@ -139,7 +139,6 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\FileModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\xiaController.cs" />
     <Compile Include="Filter\MyFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -230,7 +229,6 @@
     <Content Include="Views\File\FileListIndex.cshtml" />
     <Content Include="Upload\.NET面试宝典.docx" />
     <Content Include="Upload\人事面试常见问题及回答.pdf" />
-    <Content Include="Views\xia\Index.cshtml" />
     <Content Include="Views\Account\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>

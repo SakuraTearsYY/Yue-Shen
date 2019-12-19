@@ -8,39 +8,6 @@
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
-
-@using (Html.BeginForm("Login", "Account"))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserPwd, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserPwd, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UserPwd, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="登录" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +28,7 @@
                 </div>
             </div>
             <div class="form__content">
-                <h1>3C数码商城</h1>
+                <h1>欢迎登录3C系统</h1>
                 <div class="styled-input">
                     <input type="text" class="styled-input__input" name="nickname" id="name">
                     <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">登录名</span> </div>
@@ -73,6 +40,7 @@
                     <div class="styled-input__circle"></div>
                 </div>
                 <button id="btn" type="button" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">提交</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">提交</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">提交</span> </span> </span> </span> </button>
+                <a href="/Account/Create">没有账户？立即注册</a>
             </div>
         </form>
     </main>
@@ -98,7 +66,6 @@
                 dataType: "json",
                 type: "post",
                 success: function (res) {
-                   
                     if (res != null) {
                         location.href = "/home/index";
                     }

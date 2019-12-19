@@ -12,7 +12,7 @@ namespace Demo01.UI.Controllers
 {
     public class AccountController : Controller
     {
-
+        
         readonly UserInfoBll userInfo = new UserInfoBll();
         // GET: Account/Details/5
 
@@ -27,17 +27,20 @@ namespace Demo01.UI.Controllers
         }
         // POST: Account/Create
         [HttpPost]
-        public ActionResult Create(UserInfo model)
+        public JsonResult Creat(string usreName,string usrePwd)
         {
-            if (model != null)
+            if (usreName != null&& usrePwd!=null)
             {
+                UserInfo model = new UserInfo();
+                model.UserName = usreName;
+                model.UserPwd = usrePwd;
                 model.UserCord = 1;
                 if (userInfo.Ins(model))
                 {
-                    return RedirectToAction("Login");
+                    return Json(true);
                 }
             }
-            return View();
+            return Json(false);
         }
         [HttpPost]
         public JsonResult Vad(string name, string pwd)

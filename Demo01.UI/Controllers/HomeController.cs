@@ -134,13 +134,5 @@ namespace Demo01.UI.Controllers
             return Json(ret);
         }
 
-        public ActionResult Load(IEnumerable<HttpPostAttribute> file1)
-        {
-            foreach (var item in file1)
-            {
-
-            }
-            return RedirectToAction("");
-        }
     }
 }
