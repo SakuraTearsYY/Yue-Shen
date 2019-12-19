@@ -103,3 +103,10 @@
 出错类：Logger property: [(null)] - 
 错误描述：admin登录
  
+
+记录时间：2019-12-19 11:14:22,010 
+线程ID:[6] 
+日志级别：  INFO  
+出错类：Logger property: [(null)] - 
+错误描述：admin登录
+ 
