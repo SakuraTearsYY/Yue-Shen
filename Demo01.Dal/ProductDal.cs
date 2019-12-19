@@ -28,7 +28,7 @@ namespace Demo01.Dal
                         select new GroupModel { pro = u, Name = t.Name });
             return temp.First(whereLambda);
         }
-
+        //图表
         public List<IGrouping<string,ProductCategory>> GroupSelList()
         {
             var temp = (from u in db.Product

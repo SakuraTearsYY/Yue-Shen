@@ -47,7 +47,7 @@ namespace Demo01.Bll
         {
             return dal.GroupSel(whereLambda);
         }
-
+        //图表
         public List<IGrouping<string, ProductCategory>> GroupSelList()
         {
             return dal.GroupSelList();

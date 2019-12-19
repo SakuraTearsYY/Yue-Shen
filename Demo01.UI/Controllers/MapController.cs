@@ -11,6 +11,7 @@ namespace Demo01.UI.Controllers
     {
         readonly ProductBll product = new ProductBll();
         // GET: Map
+        //地图
         public ActionResult Index()
         {
             return View();
@@ -21,12 +22,13 @@ namespace Demo01.UI.Controllers
             return View();
         }
 
-
+        //列表
         [HttpPost]
         public JsonResult sel()
         {
             var data = product.GroupSelList();
             return Json(data);
         }
+
     }
 }
