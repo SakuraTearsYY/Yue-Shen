@@ -130,7 +130,6 @@ insert  into Product values('Æ»¹ûMac Pro',1088888,156666,4,4,'eeee',0,default,de
 insert  into Product values('DIYÉÝ»ªË®Àä',269999,388888,4,4,'eeee',0,default,default)
 go
 
-
 select * from FirstType
 select UserCord from UserInfo u,FirstType f where u.UserID=f.UserID and username=   userpwd=  
 

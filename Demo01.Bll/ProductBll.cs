@@ -47,11 +47,16 @@ namespace Demo01.Bll
         {
             return dal.GroupSel(whereLambda);
         }
-        /// <summary>
-        /// 获取数据条数
-        /// </summary>
-        /// <returns>数据总条数</returns>
-        public int Count(Expression<Func<GroupModel, bool>> whereLambda) 
+
+        public List<IGrouping<string, ProductCategory>> GroupSelList()
+        {
+            return dal.GroupSelList();
+        }
+            /// <summary>
+            /// 获取数据条数
+            /// </summary>
+            /// <returns>数据总条数</returns>
+            public int Count(Expression<Func<GroupModel, bool>> whereLambda) 
         {
             return dal.Count(whereLambda);
         }

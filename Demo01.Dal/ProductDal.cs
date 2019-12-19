@@ -28,6 +28,15 @@ namespace Demo01.Dal
                         select new GroupModel { pro = u, Name = t.Name });
             return temp.First(whereLambda);
         }
+
+        public List<IGrouping<string,ProductCategory>> GroupSelList()
+        {
+            var temp = (from u in db.Product
+                        join t in db.ProductCategory on u.CategoryId equals t.Id
+                        group t by t.Name into item select item).ToList();
+            return temp;
+        }
+
         public IQueryable<GroupModel> Pages<S>(int size, int pageIndex, Expression<Func<GroupModel, S>> orderby, Expression<Func<GroupModel, bool>> whereLambda, bool IsDesc)
         {
             if (IsDesc)

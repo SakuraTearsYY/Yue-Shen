@@ -139,6 +139,7 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\FileModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Filter\MyFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -181,7 +182,9 @@
     <Content Include="img\select2.png" />
     <Content Include="img\spinner.gif" />
     <Content Include="img\sprite.png" />
+    <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery-1.7.js" />
     <Content Include="js\jquery-1.9.1.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="js\matrix.js" />
@@ -195,6 +198,7 @@
     <Content Include="font-awesome\font\fontawesome-webfont.woff" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\echarts.min.js" />
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -230,6 +234,8 @@
     <Content Include="Views\File\FileListIndex.cshtml" />
     <Content Include="Upload\.NET面试宝典.docx" />
     <Content Include="Upload\人事面试常见问题及回答.pdf" />
+    <Content Include="Views\Map\Index.cshtml" />
+    <Content Include="Views\Map\Proctive.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
