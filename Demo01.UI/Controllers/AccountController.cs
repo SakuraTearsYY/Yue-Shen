@@ -16,47 +16,43 @@ namespace Demo01.UI.Controllers
         readonly UserInfoBll userInfo = new UserInfoBll();
         // GET: Account/Details/5
 
-        public ActionResult Login(UserInfo model) 
+        public ActionResult Login()
         {
-            if (model!=null)
-            {
-                var data = userInfo.Sel(x => x.UserName == model.UserName & x.UserPwd == model.UserPwd);
-                if (data.Count() > 0)
-                {
-                    Session["us"] = data.FirstOrDefault();
-                    return RedirectToAction("Index", "Home");
-                }
-            }
             return View();
         }
 
-
+        public ActionResult Create() 
+        {
+            return View();
+        }
         // POST: Account/Create
         [HttpPost]
         public ActionResult Create(UserInfo model)
         {
-            
-            if (userInfo.Ins(model))
+            if (model != null)
             {
-                
-                return RedirectToAction("Login");
-                
-               
+                model.UserCord = 1;
+                if (userInfo.Ins(model))
+                {
+                    return RedirectToAction("Login");
+                }
             }
-            
             return View();
         }
         [HttpPost]
-        public JsonResult Vad(string name,string pwd) 
+        public JsonResult Vad(string name, string pwd)
         {
             var data = userInfo.Sel(x => x.UserName == name & x.UserPwd == pwd);
-            if (data.Count()>0)
+
+
+
+            if (data.Count() > 0)
             {
-                LogHelper.Default.WriteInfo(data.First().UserName+"登录");
+                LogHelper.Default.WriteInfo(data.First().UserName + "登录");
                 Session["us"] = data.FirstOrDefault();
                 return Json(true);
             }
-            return Json(false);
+            return Json(data);
         }
     }
 }

@@ -19,7 +19,15 @@ namespace Demo01.Dal
                     on u.CategoryId equals t.Id
                     select new GroupModel { pro = u, Name = t.Name }).Where(WhereLmbda).Count();
         }
-
+        public List<IGrouping<string,ProductCategory>> GroupSelList() 
+        {
+            var temp = (from u in db.Product
+                        join t in db.ProductCategory
+                        on u.CategoryId equals t.Id
+                        group t by t.Name into item
+                        select item).ToList();
+            return temp;
+        }
         public GroupModel GroupSel(Expression<Func<GroupModel, bool>> whereLambda)
         {
             var temp = (from u in db.Product
