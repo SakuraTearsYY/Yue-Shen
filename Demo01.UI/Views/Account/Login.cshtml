@@ -102,5 +102,17 @@
                 }
             });
         });
+        apiUrl = "https://localhost:44301/"
+        $.ajax({
+                url: apiUrl + "api/values",
+                //data: { id: "1" },
+                dataType: "json",
+                type: "GET",
+                success: function (res) {
+                    if (res != null) {
+                       // location.href = "/home/index";
+                    }
+                }
+            });
     });
 </script>
