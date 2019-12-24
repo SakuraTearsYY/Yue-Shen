@@ -39,9 +39,19 @@ namespace Demo01.UI.Controllers
             {
                 data = data = product.Pages(6, ID, x => x.pro.SecondID == SID, false);
             }
-
             return Json(data);
         }
+        [HttpPost]
+        public JsonResult band() 
+        {
+            Session["us"] = null;
+            if (Session["us"] == null)
+            {
+                return Json(0);
+            }
+            return Json(1);
+        }
+
         [HttpPost]
         public JsonResult Sel(int Id)
         {
@@ -124,13 +134,5 @@ namespace Demo01.UI.Controllers
             return Json(ret);
         }
 
-        public ActionResult Load(IEnumerable<HttpPostAttribute> file1)
-        {
-            foreach (var item in file1)
-            {
-
-            }
-            return RedirectToAction("");
-        }
     }
 }

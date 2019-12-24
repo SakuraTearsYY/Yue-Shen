@@ -17,17 +17,23 @@ namespace Demo01.UI.Controllers
             return View();
         }
 
-        [AllowAnonymous]
-        [HttpPost]
         public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> fileBases)
         {
-            foreach (var file in fileBases)
+            if (fileBases != null)
             {
-                var filename = Path.GetFileName(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/Upload"), filename);
-                file.SaveAs(path);
+                foreach (var file in fileBases)
+                {
+                    var filename = Path.GetFileName(file.FileName);
+                    if (filename != null)
+                    {
+                        var path = Path.Combine(Server.MapPath("~/Upload"), filename);
+                        file.SaveAs(path);
+                    }
+                   
+                }
+                return RedirectToAction("FileListIndex");
             }
-            return RedirectToAction("FileListIndex");
+            return View();
         }
 
         [AllowAnonymous]

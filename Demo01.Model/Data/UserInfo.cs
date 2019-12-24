@@ -11,7 +11,8 @@ namespace Demo01.Model.Data
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class UserInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +22,9 @@ namespace Demo01.Model.Data
         }
     
         public int UserID { get; set; }
+        [Display(Name ="账户名")]
         public string UserName { get; set; }
+        [Display(Name ="密  码")]
         public string UserPwd { get; set; }
         public int UserCord { get; set; }
     

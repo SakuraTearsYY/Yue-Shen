@@ -12,6 +12,11 @@ namespace Demo01.Bll
     public class ProductBll
     {
         readonly ProductDal dal = new ProductDal();
+
+        public List<IGrouping<string, ProductCategory>> GroupSelList()
+        {
+            return dal.GroupSelList();
+        }
         /// <summary>
         /// 查询全部
         /// </summary>

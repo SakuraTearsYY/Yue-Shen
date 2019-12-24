@@ -12,51 +12,50 @@ namespace Demo01.UI.Controllers
 {
     public class AccountController : Controller
     {
-
+        
         readonly UserInfoBll userInfo = new UserInfoBll();
         // GET: Account/Details/5
 
-        public ActionResult Login(UserInfo model) 
+        public ActionResult Login()
         {
-            if (model!=null)
-            {
-                var data = userInfo.Sel(x => x.UserName == model.UserName & x.UserPwd == model.UserPwd);
-                if (data.Count() > 0)
-                {
-                    Session["us"] = data.FirstOrDefault();
-                    return RedirectToAction("Index", "Home");
-                }
-            }
             return View();
         }
 
-
+        public ActionResult Create() 
+        {
+            return View();
+        }
         // POST: Account/Create
         [HttpPost]
-        public ActionResult Create(UserInfo model)
+        public JsonResult Creat(string usreName,string usrePwd)
         {
-            
-            if (userInfo.Ins(model))
+            if (usreName != null&& usrePwd!=null)
             {
-                
-                return RedirectToAction("Login");
-                
-               
+                UserInfo model = new UserInfo();
+                model.UserName = usreName;
+                model.UserPwd = usrePwd;
+                model.UserCord = 1;
+                if (userInfo.Ins(model))
+                {
+                    return Json(true);
+                }
             }
-            
-            return View();
+            return Json(false);
         }
         [HttpPost]
-        public JsonResult Vad(string name,string pwd) 
+        public JsonResult Vad(string name, string pwd)
         {
             var data = userInfo.Sel(x => x.UserName == name & x.UserPwd == pwd);
-            if (data.Count()>0)
+
+
+
+            if (data.Count() > 0)
             {
-                LogHelper.Default.WriteInfo(data.First().UserName+"登录");
+                LogHelper.Default.WriteInfo(data.First().UserName + "登录");
                 Session["us"] = data.FirstOrDefault();
                 return Json(true);
             }
-            return Json(false);
+            return Json(data);
         }
         
     }
