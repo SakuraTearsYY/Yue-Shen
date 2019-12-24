@@ -22,9 +22,9 @@ namespace Demo01.Web.Api.Controllers
 
         // GET api/values/5
         [HttpGet]
-        public string Get(int id)
+        public Product Get(int id)
         {
-            return "value";
+            return product.Search().FirstOrDefault(x=>x.Id == id);
         }
 
         // POST api/values
@@ -41,8 +41,9 @@ namespace Demo01.Web.Api.Controllers
 
         // DELETE api/values/5
         [HttpDelete]
-        public void Delete(int id)
+        public bool Delete(int id)
         {
+            return product.Del(id);
         }
     }
 }

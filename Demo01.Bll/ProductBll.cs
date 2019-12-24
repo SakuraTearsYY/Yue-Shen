@@ -90,8 +90,10 @@ namespace Demo01.Bll
         /// </summary>
         /// <param name="model">实体</param>
         /// <returns>是否成功</returns>
-        public bool Del(Product model) 
+        public bool Del(int id) 
         {
+            Product model = new Product();
+            model.Id = id;
             return dal.Del(model);
         }
         /// <summary>
